@@ -22,7 +22,7 @@ function fix_banner() {
 
 function cleanup_html(element_id, html, body) {
     content = $(html)
-    content.find('a:[href]').each(function(){
+    content.find('a[href]').each(function(){
         // remove empty links
         // if there is nothing left after removing <br />, &nbsp; and whitespace characters then the a tag is empty
         if ($(this).html().replace(/<br>/g,'').replace(/\s+/g,'').replace(/&nbsp;/g,'')==''){
@@ -148,7 +148,7 @@ tinyMCE_config = {
         ed.onActivate.add(function(ed) {
             fix_banner();
         });
-        
+
         ed.onClick.add(function(ed) {
             fix_banner();
         });
@@ -172,22 +172,21 @@ nonblocklevel_tinyMCE_config['force_p_newlines'] = false;
 
 tinyMCE.init(tinyMCE_config);
 
-function mce_init() {
-    //$(".mce_fields").not('.inline-related .mce_fields').each(function(i) {
-    $(".mce_fields").each(function(i) {
+function process_inline_mce(){
+    $(".mce_fields").not('.empty-form .mce_fields').filter(':visible').each(function(i) {
         tinyMCE.execCommand("mceAddControl",true,this.id);
         $(this).removeClass('mce_fields');
     });
-    setTimeout(function(){
-        $('.add-row a').bind('mouseup', function() {
-            $('.mce_fields').each(function(i) {
-                var that = this;
-                setTimeout(function(){
-                    console.log(that);
-                    tinyMCE.execCommand("mceAddControl",true,that.id);
-                    //$(that).removeClass('mce_fields');
-                }, 1000);
-            });
-        });
-    }, 500);
+
+}
+
+function mce_init() {
+    //$(".mce_fields").not('.inline-related .mce_fields').each(function(i) {
+    $(".mce_fields").not('.empty-form .mce_fields').each(function(i) {
+        tinyMCE.execCommand("mceAddControl",true,this.id);
+        $(this).removeClass('mce_fields');
+    });
+    $('.add-row a').live('mouseup', function() {
+        setTimeout('process_inline_mce()', 200)
+    });
 }
