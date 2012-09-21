@@ -3,6 +3,7 @@ from django import forms
 from django.conf import settings
 from django.db import models
 from django.forms.widgets import Textarea
+from django.utils.http import urlencode
 from django.utils.safestring import mark_safe
 
 
@@ -15,6 +16,7 @@ help_list = [
 class MCEWidget(Textarea):
     def __init__(self, attrs=None, *args, **kwargs):
         self.config_js_file = kwargs.pop('config_js_file', '')
+        self.conf = kwargs.pop('conf', '')
         default_attrs = {
             'class': 'mce_fields',
             'style': 'width: 500px; height: 200px',
@@ -31,7 +33,12 @@ class MCEWidget(Textarea):
         return mark_safe('<span>%s</span><br />%s' % (help_text, super(MCEWidget, self).render(*args, **kwargs)))
 
     def _media(self):
-        js_list = ['tiny_mce/tiny_mce.js', 'mce_global.js',]
+        js_list = ['tiny_mce/tiny_mce.js',]
+        if self.conf:
+            conf_string = urlencode(self.conf)
+            js_list.append('mce_global.js?%s' % conf_string)
+        else:
+            js_list.append('mce_global.js')
         if self.config_js_file:
             js_list.append(self.config_js_file)
         js = map (lambda p: settings.STATIC_URL+"js/"+p, js_list)
@@ -44,7 +51,8 @@ class MCEFormField(forms.Field):
 
     def __init__(self, *args, **kwargs):
         config_js_file = kwargs.pop('config_js_file', '')
-        kwargs.update({'widget':MCEWidget(config_js_file=config_js_file), })
+        conf = kwargs.pop('conf', '')
+        kwargs.update({'widget':MCEWidget(config_js_file=config_js_file, conf=conf), })
         return super(MCEFormField, self).__init__(*args, **kwargs)
 
 
@@ -52,10 +60,11 @@ class MCEField(models.TextField):
     def __init__(self, *args, **kwargs):
         kwargs['max_length'] = kwargs.get('max_length', 4000)
         self.config_js_file = kwargs.pop('js', '')
+        self.conf = kwargs.pop('conf', '')
         models.TextField.__init__(self, *args, **kwargs)
 
     def formfield(self, **kwargs):
-        defaults = {'form_class': MCEFormField, 'config_js_file': self.config_js_file}
+        defaults = {'form_class': MCEFormField, 'config_js_file': self.config_js_file, 'conf': self.conf}
         defaults.update(kwargs)
         return super(MCEField, self).formfield(**defaults)
 
