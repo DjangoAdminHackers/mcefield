@@ -71,6 +71,6 @@ class MCEField(models.TextField):
 
 try:
     from south.modelsinspector import add_introspection_rules
-    add_introspection_rules([], ["^cms\.fields\.MCEField"])
+    add_introspection_rules([], ["^mcefield\.custom_fields\.MCEField"])
 except ImportError:
     pass
