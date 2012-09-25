@@ -23,15 +23,17 @@ var ImageDialog = {
 		if (e.nodeName == 'IMG') {
 			f.src.value = ed.dom.getAttrib(e, 'src');
 			f.alt.value = ed.dom.getAttrib(e, 'alt');
-			f.border.value = this.getAttrib(e, 'border');
-			f.vspace.value = this.getAttrib(e, 'vspace');
-			f.hspace.value = this.getAttrib(e, 'hspace');
-			f.width.value = ed.dom.getAttrib(e, 'width');
-			f.height.value = ed.dom.getAttrib(e, 'height');
-			f.insert.value = ed.getLang('update');
-			this.styleVal = ed.dom.getAttrib(e, 'style');
+			//AndyB
+			//f.border.value = this.getAttrib(e, 'border');
+			//f.vspace.value = this.getAttrib(e, 'vspace');
+			//f.hspace.value = this.getAttrib(e, 'hspace');
+			//f.width.value = ed.dom.getAttrib(e, 'width');
+			//f.height.value = ed.dom.getAttrib(e, 'height');
+			//f.insert.value = ed.getLang('update');
+			//this.styleVal = ed.dom.getAttrib(e, 'style');
 			selectByValue(f, 'image_list', f.src.value);
-			selectByValue(f, 'align', this.getAttrib(e, 'align'));
+			//selectByValue(f, 'align', this.getAttrib(e, 'align'));
+			selectByValue(f, 'class', this.getAttrib(e, 'class'));
 			this.updateStyle();
 		}
 	},
@@ -68,10 +70,11 @@ var ImageDialog = {
 
 		if (!ed.settings.inline_styles) {
 			args = tinymce.extend(args, {
-				vspace : nl.vspace.value,
-				hspace : nl.hspace.value,
-				border : nl.border.value,
-				align : getSelectValue(f, 'align')
+				//vspace : nl.vspace.value,
+				//hspace : nl.hspace.value,
+				//border : nl.border.value,
+				//align : getSelectValue(f, 'align')
+                		class : getSelectValue(f, 'class') //AndyB
 			});
 		} else
 			args.style = this.styleVal;
@@ -79,8 +82,9 @@ var ImageDialog = {
 		tinymce.extend(args, {
 			src : f.src.value.replace(/ /g, '%20'),
 			alt : f.alt.value,
-			width : f.width.value,
-			height : f.height.value
+            class : f.class.value //AndyB
+			//width : f.width.value,
+			//height : f.height.value
 		});
 
 		el = ed.selection.getNode();
@@ -110,7 +114,7 @@ var ImageDialog = {
 			tinymce.each(tinyMCEPopup.dom.parseStyle(this.styleVal), function(value, key) {
 				st[key] = value;
 			});
-
+/* AndyB
 			// Handle align
 			v = getSelectValue(f, 'align');
 			if (v) {
@@ -156,6 +160,13 @@ var ImageDialog = {
 			} else {
 				delete st['margin-top'];
 				delete st['margin-bottom'];
+			}*/ //AndyB
+			// Handle class
+			v = f.class.value;
+			if (v) {
+				st['class'] = v;
+			} else {
+				delete st['class'];
 			}
 
 			// Merge
