@@ -170,6 +170,31 @@ nonblocklevel_tinyMCE_config['forced_root_block'] = '';
 nonblocklevel_tinyMCE_config['force_br_newlines'] = true;
 nonblocklevel_tinyMCE_config['force_p_newlines'] = false;
 
+//Parse the conf parameter
+//content = MCEField(blank=True, null=True, conf={'width':999})
+function parseQuery ( query ) {
+    var Params = new Object ();
+    if ( ! query ) return Params; // return empty object
+    var Pairs = query.split(/[;&]/);
+    for ( var i = 0; i < Pairs.length; i++ ) {
+        var KeyVal = Pairs[i].split('=');
+        if ( ! KeyVal || KeyVal.length != 2 ) continue;
+        var key = unescape( KeyVal[0] );
+        var val = unescape( KeyVal[1] );
+        val = val.replace(/\+/g, ' ');
+        Params[key] = val;
+    }
+    return Params;
+}
+
+var scripts = document.getElementsByTagName('script');
+var current_ccript = scripts[scripts.length - 1];
+var query_string = current_ccript.src.replace(/^[^\?]+\??/,'');
+var field_mce_conf = parseQuery(query_string);
+for (attr in field_mce_conf){
+    tinyMCE_config[attr] = field_mce_conf[attr]
+}
+
 tinyMCE.init(tinyMCE_config);
 
 function process_inline_mce(){
