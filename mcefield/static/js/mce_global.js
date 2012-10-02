@@ -1,11 +1,11 @@
-var extra_styles = "Grey text=grey";
-var extra_classes = "class<grey";
-var content_width = 690;
+var extra_styles = "Grey text=grey"; // TODO make configurable
+var extra_classes = "class<grey"; // TODO make configurable
+var content_width = 690; // TODO this should relate to site's content width to give accurate idea of line lengths
 var table_controls =  ", tablecontrols";
 var extra_plugins = ", table";
 var table_elements = ",table,tr,th,#td,thead,tbody";
 
-function fix_banner() {
+function fix_banner() { //TODO this is specific to my admin CSS which has a position:fixed header
     // Bigger offset if two toolbars are visible
     if ($('.mceToolbarRow1:visible').length) {
         if ($('.mceToolbarRow2:visible').length) {
@@ -16,7 +16,6 @@ function fix_banner() {
     } else {
         offset = '88px';
     }
-
     $('#content').css('margin-top', offset);
 }
 
@@ -57,7 +56,7 @@ tinyMCE_config = {
 	mode : "none",
 	theme : "advanced",
     skin : "o2k7",
-    skin_variant : "clean",
+    //skin_variant : "clean",
 	theme_advanced_resizing : true,
 	theme_advanced_resize_horizontal : false,
 	theme_advanced_path : false,
@@ -67,7 +66,7 @@ tinyMCE_config = {
 	theme_advanced_toolbar_location : "external",
 	theme_advanced_toolbar_align : "left",
 	theme_advanced_buttons1 : "formatselect,styleselect,removeformat,|,bold,italic,|,bullist,numlist,blockquote,|,undo,redo,|,link,unlink,anchor,|,image,fileBrowser,|,pdw_toggle",
-	theme_advanced_buttons2 : "charmap,hr,|,search,replace,|,code,showWhitespace,|"+table_controls,
+	theme_advanced_buttons2 : "charmap,hr,|,search,replace,|,code,visualchars,|"+table_controls,
 	theme_advanced_buttons3 : "",
 	theme_advanced_blockformats : "p,h2,h3",
     width : content_width+18,
@@ -81,20 +80,20 @@ tinyMCE_config = {
 	external_image_list_url : "/admin/cms/imagelist.js",
 	external_link_list_url : "/admin/cms/linklist.js",
 	auto_cleanup_word : true,
-	////plugins : "inlinepopups, paste, searchreplace, advimagescale, autoresize, pdw"+extra_plugins,
-    plugins : "inlinepopups, paste, searchreplace, advimagescale, autoresize, pdw"+extra_plugins,
+    //plugins : "inlinepopups, paste, searchreplace, advimagescale, visualchars, autoresize, pdw"+extra_plugins,
+    plugins : "inlinepopups, paste, searchreplace, advimagescale, visualchars, autoresize, pdw"+extra_plugins,
 	valid_elements : ("-h2/h1[___],-h3/h4/h5[___],p[___],ul[___],-li,-ol,blockquote,br,-em/i,-strong/b,-span[!___],-div[!___],a[!name|!href|title|target],hr,img[src|class<left?right?center?floatleft?floatright|alt|title|height|width]"+table_elements).replace(/___/g, extra_classes),
     paste_preprocess : function(pl, o) {
         o.content = o.content.replace(/<!(?:--[\s\S]*?--\s*)?>\s*/g,'');
     },
     save_callback : cleanup_html,
-    //file_browser_callback: "CustomFileBrowser",
+    // file_browser_callback: "CustomFileBrowser", //TODO
     pdw_toggle_on : 1,
     pdw_toggle_toolbars : "2",
     setup : function(ed) {
         ed.addButton('showWhitespace', {
             title : 'Show Whitespace',
-            image : '/static/images/admin/show_whitespace.gif',
+            image : '/static/images/admin/show_whitespace.gif', // TODO make a proper icon
             onclick : function() {
                 if (!tinyMCE.activeEditor.show_paragraphs) {
                     tinyMCE.activeEditor.dom.setStyle(tinyMCE.activeEditor.dom.select('p, h1, h2, h3, h4, ul, li, ol'), 'background-color', '#FFFFBB');
@@ -205,8 +204,8 @@ function process_inline_mce(){
 
 }
 
-function mce_init() {
-    //$(".mce_fields").not('.inline-related .mce_fields').each(function(i) {
+//$(document).ready(function() {
+function mce_init(){
     $(".mce_fields").not('.empty-form .mce_fields').each(function(i) {
         tinyMCE.execCommand("mceAddControl",true,this.id);
         $(this).removeClass('mce_fields');
