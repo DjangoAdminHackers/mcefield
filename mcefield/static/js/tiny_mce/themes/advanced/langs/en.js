@@ -28,9 +28,9 @@ fontdefault:"Font Family",
 "colorpicker_delta_height":"",
 "colorpicker_delta_width":"",
 "link_delta_height":"",
-"link_delta_width":"",
+"link_delta_width":"250", //AndyB
 "image_delta_height":"",
-"image_delta_width":"",
+"image_delta_width":"250", //AndyB
 "more_colors":"More Colors...",
 "toolbar_focus":"Jump to tool buttons - Alt+Q, Jump to editor - Alt-Z, Jump to element path - Alt-X",
 newdocument:"Are you sure you want clear all contents?",
