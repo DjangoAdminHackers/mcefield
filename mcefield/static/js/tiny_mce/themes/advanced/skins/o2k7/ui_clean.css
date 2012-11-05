@@ -1,8 +1,0 @@
-/* Clean */
-.o2k7SkinClean .mceToolbar .mceToolbarStart span, .o2k7SkinClean .mceButton, .o2k7SkinClean .mceSplitButton, .o2k7SkinClean .mceSeparator, .o2k7SkinClean .mceSplitButton a.mceOpen, .o2k7SkinClean .mceListBox a.mceOpen {background-image:url(img/button_bg_clean.png)}
-.o2k7SkinClean table, .o2k7SkinClean .mceMenuItemTitle a {background:#eee}
-.o2k7SkinClean .mceListBox .mceText {background:#FFF}
-.o2k7SkinClean .mceExternalToolbar, .o2k7SkinClean .mceListBox .mceText, .o2k7SkinClean div.mceMenu, .o2k7SkinClean table.mceLayout, .o2k7SkinClean .mceMenuItemTitle a, .o2k7SkinClean table.mceLayout tr.mceFirst td, .o2k7SkinClean table.mceLayout, .o2k7SkinClean .mceMenuItemTitle a, .o2k7SkinClean table.mceLayout tr.mceLast td, .o2k7SkinClean .mceIframeContainer {border-color: #bbb}
-.o2k7SkinClean .mceIcon {background:url(img/icons.png) no-repeat 20px 20px}
-.o2k7Skin .mceToolbar .mceToolbarEnd span {display:block; background: none; height:22px}
-.o2k7Skin select {background-color: white;}

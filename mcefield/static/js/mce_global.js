@@ -55,7 +55,7 @@ function CustomFileBrowser(field_name, url, type, win) {
 tinyMCE_config = {
 	mode : "none",
 	theme : "advanced",
-    skin : "o2k7",
+    skin : "thebigreason",
     //skin_variant : "clean",
 	theme_advanced_resizing : true,
 	theme_advanced_resize_horizontal : false,
