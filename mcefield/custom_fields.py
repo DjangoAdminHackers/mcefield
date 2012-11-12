@@ -16,7 +16,12 @@ help_list = [
 class MCEWidget(Textarea):
     def __init__(self, attrs=None, *args, **kwargs):
         self.config_js_file = kwargs.pop('config_js_file', '')
-        self.conf = kwargs.pop('conf', '')
+        default_conf = {}
+        if getattr(settings, 'MCE_FIELD_WIDTH', ''):
+            default_conf.update({'width': settings.MCE_FIELD_WIDTH})
+        conf = kwargs.pop('conf', {})
+        default_conf.update(conf)
+        self.conf = default_conf
         default_attrs = {
             'class': 'mce_fields',
             'style': 'width: 500px; height: 200px',
