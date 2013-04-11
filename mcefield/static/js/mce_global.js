@@ -169,7 +169,12 @@ nonblocklevel_tinyMCE_config['forced_root_block'] = '';
 nonblocklevel_tinyMCE_config['force_br_newlines'] = true;
 nonblocklevel_tinyMCE_config['force_p_newlines'] = false;
 
-//Parse the conf parameter
+//per site tinyMCE_config
+if (typeof(site_mce_config) != 'undefined'){
+    $.extend(tinyMCE_config, site_mce_config)
+}
+
+//Parse the per field conf parameter
 //content = MCEField(blank=True, null=True, conf={'width':999})
 function parseQuery ( query ) {
     var Params = new Object ();
