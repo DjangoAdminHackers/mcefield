@@ -1,9 +1,13 @@
-var extra_styles = "Grey text=grey"; // TODO make configurable
-var extra_classes = "class<grey"; // TODO make configurable
-var content_width = 690; // TODO this should relate to site's content width to give accurate idea of line lengths
-var table_controls =  ", tablecontrols";
-var extra_plugins = ", table";
-var table_elements = ",table,tr,th,#td,thead,tbody";
+//per site tinyMCE_config
+if (typeof(site_mce_config) == 'undefined'){
+    var site_mce_config = {}
+}
+var extra_styles = site_mce_config.extra_styles || "Grey text=grey"; // TODO make configurable
+var extra_classes = site_mce_config.extra_classes || "class<grey"; // TODO make configurable
+var content_width = site_mce_config.content_width || 690; // TODO this should relate to site's content width to give accurate idea of line lengths
+var table_controls =  site_mce_config.table_controls || ", tablecontrols";
+var extra_plugins = site_mce_config.extra_plugins || ", table";
+var table_elements = site_mce_config.table_elements || ",table,tr,th,#td,thead,tbody";
 
 function fix_banner() { //TODO this is specific to my admin CSS which has a position:fixed header
     // Bigger offset if two toolbars are visible
