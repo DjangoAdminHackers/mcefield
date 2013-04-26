@@ -80,7 +80,7 @@ tinyMCE_config = {
     fix_nesting : true,
     fix_table_elements : true,
 	gecko_spellcheck : true,
-    use_native_selects: true, //fixes unwanted scroll to top of content when using mce selects
+    use_native_selects: false,
 	external_image_list_url : "/admin/cms/imagelist.js",
 	external_link_list_url : "/admin/cms/linklist.js",
 	auto_cleanup_word : true,
