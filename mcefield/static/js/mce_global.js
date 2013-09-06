@@ -203,7 +203,7 @@ for (attr in field_mce_conf){
     tinyMCE_config[attr] = field_mce_conf[attr]
 }
 
-document.domain = document.domain.replace('www.', '').replace('static.');
+document.domain = document.domain.replace('www.', '').replace('static.', '');
 tinyMCE.init(tinyMCE_config);
 
 function process_inline_mce(){
