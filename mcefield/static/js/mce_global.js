@@ -24,6 +24,8 @@ function fix_banner() { //TODO this is specific to my admin CSS which has a posi
 }
 
 function cleanup_html(element_id, html, body) {
+    html = html.replace(/<!--[\s\S]+?-->/gi,'');//remove Word comments like conditional comments etc
+    
     content = $(html)
     content.find('a[href]').each(function(){
         // remove empty links
