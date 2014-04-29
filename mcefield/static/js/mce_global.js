@@ -60,9 +60,6 @@ function CustomFileBrowser(field_name, url, type, win) {
 
 tinyMCE_config = {
 	mode : "none",
-	theme : "advanced",
-    skin : "thebigreason",
-    //skin_variant : "clean",
 	theme_advanced_resizing : true,
 	theme_advanced_resize_horizontal : false,
 	theme_advanced_path : false,
@@ -71,9 +68,6 @@ tinyMCE_config = {
     theme_advanced_styles : extra_styles,
 	theme_advanced_toolbar_location : "external",
 	theme_advanced_toolbar_align : "left",
-	theme_advanced_buttons1 : "formatselect,styleselect,removeformat,|,bold,italic,|,bullist,numlist,blockquote,|,undo,redo,|,link,unlink,anchor,|,image,fileBrowser,|,pdw_toggle",
-	theme_advanced_buttons2 : "charmap,hr,|,search,replace,|,code,visualchars,|"+table_controls,
-	theme_advanced_buttons3 : "",
 	theme_advanced_blockformats : "p,h2,h3",
     width : content_width+18,
 	cleanup_on_startup : true,
@@ -83,19 +77,37 @@ tinyMCE_config = {
     fix_table_elements : true,
 	gecko_spellcheck : true,
     use_native_selects: false,
-	external_image_list_url : "/admin/cms/imagelist.js",
 	external_link_list_url : "/admin/cms/linklist.js",
 	auto_cleanup_word : true,
-    //plugins : "inlinepopups, paste, searchreplace, advimagescale, visualchars, autoresize, pdw"+extra_plugins,
-    plugins : "inlinepopups, paste, searchreplace, advimagescale, visualchars, autoresize, pdw"+extra_plugins,
+//    plugins : "inlinepopups, paste, searchreplace, advimagescale, visualchars, autoresize, pdw"+extra_plugins,
+    pdw_toggle_on : 1,
+    pdw_toggle_toolbars : "2"};
+
+tinyMCE_config = {
+    selector: "textarea",
+    content_css : "/static/stylesheets/mcestyles.css?" + new Date().getTime(),
+    plugins : "autolink,image, link, anchor, paste, searchreplace, visualchars, charmap, code, hr, media, preview, template, visualblocks,autoresize"+extra_plugins,
 	valid_elements : ("-h2/h1[___],-h3/h4/h5[___],p[___],ul[___],-li,-ol,blockquote,br,-em/i,-strong/b,-span[!___],-div[!___],a[!name|!href|title|target],hr,img[src|class<left?right?center?floatleft?floatright|alt|title|height|width]"+table_elements).replace(/___/g, extra_classes),
     paste_preprocess : function(pl, o) {
         o.content = o.content.replace(/<!(?:--[\s\S]*?--\s*)?>\s*/g,'');
     },
     save_callback : cleanup_html,
-    // file_browser_callback: "CustomFileBrowser", //TODO
-    pdw_toggle_on : 1,
-    pdw_toggle_toolbars : "2",
+    image_list : "/mcefield/imagelist.json",
+    image_dimensions: false,
+    image_class_list: [
+        {title: 'None', value: ''},
+        {title: 'Align left', value: 'left'},
+        {title: 'Align right', value: 'right'},
+        {title: 'Align to centre', value: 'center'},
+        {title: 'Align left with text wrapping', value: 'floatleft'},
+        {title: 'Align right with text wrapping', value: 'floatright'}
+    ],
+    target_list: false  ,
+    toolbar1 : "formatselect,styleselect,removeformat,|,cut,copy,paste,|,bold,italic,|,bullist,numlist,blockquote,|,undo,redo,|,link,unlink,anchor,|,image,fileBrowser,|,pdw_toggle",
+	toolbar2 : "charmap,hr,|,searchreplace,|,code,visualchars,visualblocks,|"+table_controls,
+    menubar : false,
+
+
     setup : function(ed) {
         ed.addButton('showWhitespace', {
             title : 'Show Whitespace',
@@ -120,6 +132,7 @@ tinyMCE_config = {
                 }
             }
         });
+
         ed.addButton('fileBrowser', {
             title : 'Open Filebrowser',
             image : '/static/filebrowser/img/filebrowser_icon_show.gif',
@@ -150,21 +163,22 @@ tinyMCE_config = {
             }
         });
 
-        ed.onActivate.add(function(ed) {
+        ed.on('activate', function(ed) {
             fix_banner();
         });
 
-        ed.onClick.add(function(ed) {
+        ed.on('click', function(ed) {
             fix_banner();
         });
 
-        ed.onPreInit.add(function(ed){
+        ed.on('PreInit', function(ed){
             if(typeof(fontFaceCssTag) !== 'undefined') {
                 $(ed.contentDocument).find('head').append(fontFaceCssTag);
             }
         });
+
     }
-};
+}
 
 // Alternate config for HTML snippets
 nonblocklevel_tinyMCE_config = jQuery.extend(true, {}, tinyMCE_config);

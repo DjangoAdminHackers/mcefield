@@ -1,0 +1,8 @@
+[
+    {% for image in images %}
+        {
+            "title": "{{ image.0 }}",
+            "value": "{{ image.1|iriencode }}"
+        }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+]
