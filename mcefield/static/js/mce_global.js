@@ -1,4 +1,5 @@
 //per site tinyMCE_config
+if(typeof($) === "undefined" && typeof(django.jQuery) != "undefined"){var $ = django.jQuery; var jQuery = $;}
 if (typeof(site_mce_config) == 'undefined'){
     var site_mce_config = {}
 }
@@ -122,7 +123,7 @@ tinyMCE_config = {
         });
         ed.addButton('fileBrowser', {
             title : 'Open Filebrowser',
-            image : '/static/filebrowser/img/filebrowser_icon_show.gif',
+            image : '/static/js/tiny_mce/themes/advanced/img/iframe.gif',
             onclick : function() {
                 //window.open('/admin/filebrowser/browse/?pop=ixxy', 'Filebrowser', 'height=500,width=980,resizable=yes,scrollbars=yes');
                 //window.open('/admin/filebrowser/browse/?pop=tinymce', 'Filebrowser', 'height=500,width=980,resizable=yes,scrollbars=yes');
@@ -167,7 +168,7 @@ tinyMCE_config = {
 };
 
 // Alternate config for HTML snippets
-nonblocklevel_tinyMCE_config = jQuery.extend(true, {}, tinyMCE_config);
+nonblocklevel_tinyMCE_config = $.extend(true, {}, tinyMCE_config);
 nonblocklevel_tinyMCE_config['theme_advanced_blockformats'] = "p";
 nonblocklevel_tinyMCE_config['theme_advanced_buttons1'] = "styleselect,removeformat,|,bold,italic,|,undo,redo,|,link,unlink,anchor,|,fileBrowser,|,pdw_toggle";
 nonblocklevel_tinyMCE_config['theme_advanced_buttons2'] = "charmap,|,search,replace,|,code,showWhitespace,|";
