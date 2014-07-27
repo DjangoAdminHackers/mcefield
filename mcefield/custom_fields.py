@@ -39,13 +39,13 @@ class MCEWidget(Textarea):
 
     def _media(self):
         js_list = ['tiny_mce/tiny_mce.js', 'mce_site.js']
+        if self.config_js_file:
+            js_list.append(self.config_js_file)
         if self.conf:
             conf_string = urlencode(self.conf)
             js_list.append('mce_global.js?%s' % conf_string)
         else:
             js_list.append('mce_global.js')
-        if self.config_js_file:
-            js_list.append(self.config_js_file)
         js = map (lambda p: settings.STATIC_URL+"js/"+p, js_list)
         return forms.Media(js=js)
     media = property(_media)
