@@ -88,6 +88,9 @@ var google, django, gettext;
             this.groupedTranslations = {};
 
             this.init = function () {
+                $.each(this.$fields, function(){
+                    $(this).addClass('mt-inited')
+                })
                 // Handle fields inside collapsed groups as added by zinnia
                 this.$fields = this.$fields.add('fieldset.collapse-closed .mt');
 
@@ -184,6 +187,9 @@ var google, django, gettext;
             $('.mt').parents('.inline-group').not('.tabular').find('.add-row a').click(function () {
                 var grouper = new TranslationFieldGrouper({
                     $fields: $(this).parent().prev().prev().find('.mt')
+                        .not('.empty-title input, .empty-title textarea, .empty-title select')
+                        .not('.empty-form input, .empty-form textarea, .empty-form select')
+                        .not('.mt-inited')
                 });
                 var tabs = createTabs(grouper.groupedTranslations);
                 // Update the main switch as it is not aware of the newly created tabs
@@ -212,6 +218,7 @@ var google, django, gettext;
                         'input, textarea, select')
                         .not('.empty-title input, .empty-title textarea, .empty-title select')
                         .not('.empty-form input, .empty-form textarea, .empty-form select')
+                        .not('.mt-inited')
                 });
                 //this.requiredColumns = this.getRequiredColumns();
                 this.initTable();
@@ -233,6 +240,7 @@ var google, django, gettext;
                     $fields: this.$table.find('.mt').filter('input, textarea, select')
                         .not('.empty-title input, .empty-title textarea, .empty-title select')
                         .not('.empty-form input, .empty-form textarea, .empty-form select')
+                        .not('.mt-inited')
                 });
                 this.translationColumns = this.getTranslationColumns(thGrouper.groupedTranslations);
 
@@ -395,6 +403,7 @@ var google, django, gettext;
                     'input, textarea, select').filter(':parents(.tabular)')
                         .not('.empty-title input, .empty-title textarea, .empty-title select')
                         .not('.empty-form input, .empty-form textarea, .empty-form select')
+                        .not('.mt-inited')
             });
             MainSwitch.init(grouper.groupedTranslations, createTabs(grouper.groupedTranslations));
 
