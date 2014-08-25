@@ -210,6 +210,8 @@ var google, django, gettext;
                 var grouper = new TranslationFieldGrouper({
                     $fields: this.$table.find('.mt').filter(
                         'input, textarea, select')
+                        .not('.empty-title input, .empty-title textarea, .empty-title select')
+                        .not('.empty-form input, .empty-form textarea, .empty-form select')
                 });
                 //this.requiredColumns = this.getRequiredColumns();
                 this.initTable();
@@ -229,6 +231,8 @@ var google, django, gettext;
                 // is declared with extra=0, the translation fields are not visible.
                 var thGrouper = new TranslationFieldGrouper({
                     $fields: this.$table.find('.mt').filter('input, textarea, select')
+                        .not('.empty-title input, .empty-title textarea, .empty-title select')
+                        .not('.empty-form input, .empty-form textarea, .empty-form select')
                 });
                 this.translationColumns = this.getTranslationColumns(thGrouper.groupedTranslations);
 
@@ -389,6 +393,8 @@ var google, django, gettext;
             var grouper = new TranslationFieldGrouper({
                 $fields: $('.mt').filter(
                     'input, textarea, select').filter(':parents(.tabular)')
+                        .not('.empty-title input, .empty-title textarea, .empty-title select')
+                        .not('.empty-form input, .empty-form textarea, .empty-form select')
             });
             MainSwitch.init(grouper.groupedTranslations, createTabs(grouper.groupedTranslations));
 
