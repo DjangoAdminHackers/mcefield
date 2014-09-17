@@ -218,9 +218,9 @@ function process_inline_mce(){
 }
 
 function mce_init(){
-    $(".mce_fields").not('.empty-form .mce_fields').each(function(i) {
+    $(".mce_fields").not('.empty-form .mce_fields').not('.mce_inited').each(function(i) {
         tinyMCE.execCommand("mceAddControl",true,this.id);
-        $(this).removeClass('mce_fields');
+        $(this).removeClass('mce_fields').addClass('mce_inited');
     });
     $('.add-row a').live('mouseup', function() {
         setTimeout('process_inline_mce()', 200)
