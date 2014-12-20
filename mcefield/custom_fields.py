@@ -51,7 +51,7 @@ class MCEWidget(Textarea):
     media = property(_media)
 
 
-class MCEFormField(forms.Field):
+class MCEFormField(forms.CharField):
     widget = MCEWidget
 
     def __init__(self, *args, **kwargs):
