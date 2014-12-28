@@ -222,7 +222,7 @@ function mce_init(){
         tinyMCE.execCommand("mceAddControl",true,this.id);
         $(this).removeClass('mce_fields').addClass('mce_inited');
     });
-    $('.add-row a').live('mouseup', function() {
+    $('.add-row').on('mouseup', 'a', function() {
         setTimeout('process_inline_mce()', 200)
     });
 }
