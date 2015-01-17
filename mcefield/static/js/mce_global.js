@@ -88,7 +88,7 @@ tinyMCE_config = {
 	external_link_list_url : "/admin/cms/linklist.js",
 	auto_cleanup_word : true,
     //plugins : "inlinepopups, paste, searchreplace, advimagescale, visualchars, autoresize, pdw"+extra_plugins,
-    plugins : "inlinepopups, paste, searchreplace, advimagescale, visualchars, autoresize, pdw"+extra_plugins,
+    plugins : "inlinepopups, paste, searchreplace, advimagescale, visualchars, autoresize, noneditable, pdw"+extra_plugins,
 	valid_elements : ("-h2/h1[___],-h3/h4/h5[___],p[___],ul[___],-li,-ol,blockquote,br,-em/i,-strong/b,-span[!___],-div[!___],a[!name|!href|title|target],hr,img[src|class<left?right?center?floatleft?floatright|alt|title|height|width]"+table_elements).replace(/___/g, extra_classes),
     paste_preprocess : function(pl, o) {
         o.content = o.content.replace(/<!(?:--[\s\S]*?--\s*)?>\s*/g,'');
