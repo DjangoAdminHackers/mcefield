@@ -210,7 +210,7 @@ document.domain = document.domain.replace('www.', '').replace('static.', '');
 tinyMCE.init(tinyMCE_config);
 
 function process_inline_mce(){
-    $(".mce_fields").not('.empty-form .mce_fields').filter(':visible').each(function(i) {
+    $(".mce_fields").not('.empty-form .mce_fields').filter(':visible').not('[id*=__prefix__]').each(function(i) {
         tinyMCE.execCommand("mceAddControl",true,this.id);
         $(this).removeClass('mce_fields');
     });
@@ -218,7 +218,7 @@ function process_inline_mce(){
 }
 
 function mce_init(){
-    $(".mce_fields").not('.empty-form .mce_fields').not('.mce_inited').each(function(i) {
+    $(".mce_fields").not('.empty-form .mce_fields').not('.mce_inited').not('[id*=__prefix__]').each(function(i) {
         tinyMCE.execCommand("mceAddControl",true,this.id);
         $(this).removeClass('mce_fields').addClass('mce_inited');
     });
