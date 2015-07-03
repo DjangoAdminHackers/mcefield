@@ -1,4 +1,3 @@
-//per site tinyMCE_config
 if(typeof($) === "undefined" && typeof(django.jQuery) != "undefined"){var $ = django.jQuery; var jQuery = $;}
 if (typeof(site_mce_config) == 'undefined'){
     var site_mce_config = {};

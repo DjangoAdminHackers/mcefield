@@ -38,15 +38,19 @@ class MCEWidget(Textarea):
         return mark_safe('<span>%s</span><br />%s' % (help_text, super(MCEWidget, self).render(*args, **kwargs)))
 
     def _media(self):
-        js_list = ['tiny_mce/tiny_mce.js', 'mce_site.js']
+        js_list = [
+            'admin/js/jquery.js',
+            'js/tiny_mce/tiny_mce.js',
+            'js/mce_site.js'
+        ]
         if self.config_js_file:
             js_list.append(self.config_js_file)
         if self.conf:
             conf_string = urlencode(self.conf)
-            js_list.append('mce_global.js?%s' % conf_string)
+            js_list.append('js/mce_global.js?%s' % conf_string)
         else:
-            js_list.append('mce_global.js')
-        js = map (lambda p: settings.STATIC_URL+"js/"+p, js_list)
+            js_list.append('js/mce_global.js')
+        js = map (lambda p: settings.STATIC_URL + p, js_list)
         return forms.Media(js=js)
     media = property(_media)
 
