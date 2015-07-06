@@ -2,7 +2,7 @@ from setuptools import find_packages
 from setuptools import setup
 
 setup(name='mcefield',
-      version='0.1',
+      version='0.2',
       description='MCEField',
       author='Andy Baker',
       author_email='andy@ixxy.co.uk',
