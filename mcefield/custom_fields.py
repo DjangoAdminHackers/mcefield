@@ -9,9 +9,10 @@ from django.utils.safestring import mark_safe
 
 help_list = [
     # One tip is randomly shown each time the page is visited
-    'Press shift and Return to add a single line break instead of a paragraph break',
-    #'Click The button to show/hide the second row',
+    'Tip: Press shift and Return to add a single line break instead of a paragraph break',
+    'Tip: pasting content from Word will preserve headings and list styles',
 ]
+
 
 class MCEWidget(Textarea):
     def __init__(self, attrs=None, *args, **kwargs):
@@ -31,7 +32,7 @@ class MCEWidget(Textarea):
             default_attrs.update(attrs)
         else:
             pass
-        return super(MCEWidget, self).__init__(attrs=default_attrs, *args, **kwargs)
+        super(MCEWidget, self).__init__(attrs=default_attrs, *args, **kwargs)
 
     def render(self, *args, **kwargs):
         help_text = random.choice(help_list)
@@ -46,7 +47,7 @@ class MCEWidget(Textarea):
             js_list.append('mce_global.js?%s' % conf_string)
         else:
             js_list.append('mce_global.js')
-        js = map (lambda p: settings.STATIC_URL+"js/"+p, js_list)
+        js = map (lambda p: settings.STATIC_URL + "js/" + p, js_list)
         return forms.Media(js=js)
     media = property(_media)
 
@@ -58,12 +59,11 @@ class MCEFormField(forms.CharField):
         config_js_file = kwargs.pop('config_js_file', '')
         conf = kwargs.pop('conf', '')
         kwargs.update({'widget':MCEWidget(config_js_file=config_js_file, conf=conf), })
-        return super(MCEFormField, self).__init__(*args, **kwargs)
+        super(MCEFormField, self).__init__(*args, **kwargs)
 
 
 class MCEField(models.TextField):
     def __init__(self, *args, **kwargs):
-        kwargs['max_length'] = kwargs.get('max_length', 4000)
         self.config_js_file = kwargs.pop('js', '')
         self.conf = kwargs.pop('conf', '')
         models.TextField.__init__(self, *args, **kwargs)
@@ -74,8 +74,6 @@ class MCEField(models.TextField):
         return super(MCEField, self).formfield(**defaults)
 
 
-try:
+if 'south' in settings.INSTALLED_APPS:
     from south.modelsinspector import add_introspection_rules
     add_introspection_rules([], ["^mcefield\.custom_fields\.MCEField"])
-except ImportError:
-    pass
