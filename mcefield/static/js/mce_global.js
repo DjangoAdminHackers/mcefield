@@ -1,4 +1,5 @@
 if(typeof($) === "undefined" && typeof(django.jQuery) != "undefined"){var $ = django.jQuery; var jQuery = $;}
+
 if (typeof(site_mce_config) == 'undefined'){
     var site_mce_config = {};
 }
@@ -10,8 +11,8 @@ var extra_plugins = site_mce_config.extra_plugins || ", table";
 var table_elements = site_mce_config.table_elements || ",table,tr,th,#td,thead,tbody";
 
 function cleanup_html(element_id, html, body) {
-    html = html.replace(/<!--[\s\S]+?-->/gi,'');//remove Word comments like conditional comments etc
     
+    html = html.replace(/<!--[\s\S]+?-->/gi,''); //remove Word comments like conditional comments etc
     content = $(html);
     content.find('a[href]').each(function(){
         // remove empty links
@@ -23,33 +24,67 @@ function cleanup_html(element_id, html, body) {
     return $('<div>').append(content.clone()).html();
 }
 
+function doShowWhitespace() {
+    var setStyle = tinyMCE.activeEditor.dom.setStyle;
+    var domSelect = tinyMCE.activeEditor.dom.select;
+    if (!tinyMCE.activeEditor.show_paragraphs) {
+            setStyle(domSelect('p, h1, h2, h3, h4, ul, li, ol'), 'background-color', '#FFFFBB');
+            setStyle(domSelect('p, h1, h2, h3, h4, ul, ol'), 'margin-bottom', '5px');
+            setStyle(domSelect('a'), 'background-color', '#AAF');
+            setStyle(domSelect('a'), 'border', '1px solid blue');
+            setStyle(domSelect('a'), 'margin', '2px');
+            setStyle(domSelect('a'), 'padding', '2px');
+            tinyMCE.activeEditor.show_paragraphs = true;
+        } else {
+            setStyle(domSelect('p, h1, h2, h3, h4, ul, li, ol'), 'background-color', 'transparent');
+            setStyle(domSelect('p, h1, h2, h3, h4, ul, ol'), 'margin-bottom', '0');
+            setStyle(domSelect('a'), 'background-color', '#FFF');
+            setStyle(domSelect('a'), 'border', 'none');
+            setStyle(domSelect('a'), 'margin', '0');
+            setStyle(domSelect('a'), 'padding', '0');
+            tinyMCE.activeEditor.show_paragraphs = false;
+    }
+}
+
+function doShowFileBrowser() {
+    tinyMCE.activeEditor.windowManager.open({
+        file: mcefieldFileBrowserUrl,
+        width: 820,
+        height: 500,
+        resizable: "yes",
+        scrollbars: "yes",
+        inline: "yes",
+        close_previous: "no"
+    }, {});
+}
+
 tinyMCE_config = {
-  mode : "none",
-  theme : "advanced",
-  skin : "thebigreason",
-  theme_advanced_resizing : true,
-  theme_advanced_resize_horizontal : false,
-  theme_advanced_path : false,
-  theme_advanced_statusbar_location : "bottom",
-  content_css : "/static/stylesheets/mcestyles.css?" + new Date().getTime(), // TODO Fix quick and dirty cache-busting
-  theme_advanced_styles : extra_styles,
-  theme_advanced_buttons1 : "formatselect,styleselect,removeformat,|,bold,italic,|,bullist,numlist,blockquote,|,undo,redo,|,link,unlink,anchor,|,image,fileBrowser,|,pdw_toggle",
-  theme_advanced_buttons2 : "charmap,hr,|,search,replace,|,code,visualchars,|"+table_controls,
-  theme_advanced_buttons3 : "",
-  theme_advanced_blockformats : "p,h2,h3",
-  width : content_width+18,
-  cleanup_on_startup : true,
-  convert_urls : false,
-  fix_list_elements : true,
-  fix_nesting : true,
-  fix_table_elements : true,
-  gecko_spellcheck : true,
-  use_native_selects: false,
-  external_image_list_url : "/admin/cms/imagelist.js",
-  external_link_list_url : "/admin/cms/linklist.js",
-  auto_cleanup_word : true,
-  plugins : "inlinepopups, paste, searchreplace, advimagescale, visualchars, autoresize, noneditable, pdw"+extra_plugins,
-  valid_elements : ("-h2/h1[___],-h3/h4/h5[___],p[___],ul[___],-li,-ol,blockquote,br,-em/i,-strong/b,-span[!___],-div[!___],a[!name|!href|title|target],hr,img[src|class<left?right?center?floatleft?floatright|alt|title|height|width]"+table_elements).replace(/___/g, extra_classes),
+    mode : "none",
+    theme : "advanced",
+    skin : "thebigreason",
+    theme_advanced_resizing : true,
+    theme_advanced_resize_horizontal : false,
+    theme_advanced_path : false,
+    theme_advanced_statusbar_location : "bottom",
+    content_css : "/static/stylesheets/mcestyles.css?" + new Date().getTime(), // TODO Fix quick and dirty cache-busting
+    theme_advanced_styles : extra_styles,
+    theme_advanced_buttons1 : "formatselect,styleselect,removeformat,|,bold,italic,|,bullist,numlist,blockquote,|,undo,redo,|,link,unlink,anchor,|,image,fileBrowser,|,pdw_toggle",
+    theme_advanced_buttons2 : "charmap,hr,|,search,replace,|,code,visualchars,|"+table_controls,
+    theme_advanced_buttons3 : "",
+    theme_advanced_blockformats : "p,h2,h3",
+    width : content_width+18,
+    cleanup_on_startup : true,
+    convert_urls : false,
+    fix_list_elements : true,
+    fix_nesting : true,
+    fix_table_elements : true,
+    gecko_spellcheck : true,
+    use_native_selects: false,
+    external_image_list_url : "/admin/cms/imagelist.js",
+    external_link_list_url : "/admin/cms/linklist.js",
+    auto_cleanup_word : true,
+    plugins : "inlinepopups, paste, searchreplace, advimagescale, visualchars, autoresize, noneditable, pdw"+extra_plugins,
+    valid_elements : ("-h2/h1[___],-h3/h4/h5[___],p[___],ul[___],-li,-ol,blockquote,br,-em/i,-strong/b,-span[!___],-div[!___],a[!name|!href|title|target],hr,img[src|class<left?right?center?floatleft?floatright|alt|title|height|width]"+table_elements).replace(/___/g, extra_classes),
     paste_preprocess : function(pl, o) {
         o.content = o.content.replace(/<!(?:--[\s\S]*?--\s*)?>\s*/g,'');
     },
@@ -59,30 +94,20 @@ tinyMCE_config = {
     pdw_toggle_toolbars : "2",
     setup : function(ed) {
         
-      ed.addButton('showWhitespace', {
-          title : 'Show Whitespace',
-          image : '/static/images/admin/show_whitespace.gif', // TODO make a proper icon
-          onclick : function() {
-              if (!tinyMCE.activeEditor.show_paragraphs) {
-                  tinyMCE.activeEditor.dom.setStyle(tinyMCE.activeEditor.dom.select('p, h1, h2, h3, h4, ul, li, ol'), 'background-color', '#FFFFBB');
-                  tinyMCE.activeEditor.dom.setStyle(tinyMCE.activeEditor.dom.select('p, h1, h2, h3, h4, ul, ol'), 'margin-bottom', '5px');
-                  tinyMCE.activeEditor.dom.setStyle(tinyMCE.activeEditor.dom.select('a'), 'background-color', '#AAF');
-                  tinyMCE.activeEditor.dom.setStyle(tinyMCE.activeEditor.dom.select('a'), 'border', '1px solid blue');
-                  tinyMCE.activeEditor.dom.setStyle(tinyMCE.activeEditor.dom.select('a'), 'margin', '2px');
-                  tinyMCE.activeEditor.dom.setStyle(tinyMCE.activeEditor.dom.select('a'), 'padding', '2px');
-                  tinyMCE.activeEditor.show_paragraphs = true;
-              } else {
-                  tinyMCE.activeEditor.dom.setStyle(tinyMCE.activeEditor.dom.select('p, h1, h2, h3, h4, ul, li, ol'), 'background-color', 'transparent');
-                  tinyMCE.activeEditor.dom.setStyle(tinyMCE.activeEditor.dom.select('p, h1, h2, h3, h4, ul, ol'), 'margin-bottom', '0');
-                  tinyMCE.activeEditor.dom.setStyle(tinyMCE.activeEditor.dom.select('a'), 'background-color', '#FFF');
-                  tinyMCE.activeEditor.dom.setStyle(tinyMCE.activeEditor.dom.select('a'), 'border', 'none');
-                  tinyMCE.activeEditor.dom.setStyle(tinyMCE.activeEditor.dom.select('a'), 'margin', '0');
-                  tinyMCE.activeEditor.dom.setStyle(tinyMCE.activeEditor.dom.select('a'), 'padding', '0');
-                  tinyMCE.activeEditor.show_paragraphs = false;
-              }
-          }
-      });
-
+        ed.addButton('showWhitespace', {
+            title : 'Show Whitespace',
+            image : '/static/images/admin/show_whitespace.gif', // TODO make a proper icon
+            onclick : doShowWhitespace
+        });
+        
+        if (mcefieldFileBrowserUrl) {
+            ed.addButton('fileBrowser', {
+                title: 'Open Filebrowser',
+                image: '/static/js/tiny_mce/themes/advanced/img/iframe.gif',
+                onclick: doShowFileBrowser
+            });
+        }
+        
         ed.onPreInit.add(function(ed){
             if(typeof(fontFaceCssTag) !== 'undefined') {
                 $(ed.contentDocument).find('head').append(fontFaceCssTag);
