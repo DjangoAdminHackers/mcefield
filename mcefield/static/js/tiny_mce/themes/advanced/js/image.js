@@ -243,10 +243,10 @@ var ImageDialog = {
 	updateImageData : function() {
 		var f = document.forms[0], t = ImageDialog;
 
-		if (f.width.value == "")
+		if (f.width && f.width.value == "")
 			f.width.value = t.preloadImg.width;
 
-		if (f.height.value == "")
+		if (f.height && f.height.value == "")
 			f.height.value = t.preloadImg.height;
 	},
 
