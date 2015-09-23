@@ -10,6 +10,26 @@ var table_controls =  site_mce_config.table_controls || ", tablecontrols";
 var extra_plugins = site_mce_config.extra_plugins || ", table";
 var table_elements = site_mce_config.table_elements || ",table,tr,th,#td,thead,tbody";
 
+function CustomFileBrowser(field_name, url, type, win) {
+    
+    var cmsURL = mcefieldFileBrowserUrl + '?pop=2' + '&type=' + type;
+    
+    tinyMCE.activeEditor.windowManager.open({
+        file: cmsURL,
+        width: 980,  // Your dimensions may differ - toy around with them!
+        height: 550,
+        resizable: 'yes',
+        scrollbars: 'yes',
+        inline: 'no',  // This parameter only has an effect if you use the inlinepopups plugin!
+        close_previous: 'no'
+    }, {
+        window: win,
+        input: field_name,
+        editor_id: tinyMCE.selectedInstance.editorId
+    });
+    return false;
+}
+
 function cleanup_html(element_id, html, body) {
     
     html = html.replace(/<!--[\s\S]+?-->/gi,''); //remove Word comments like conditional comments etc
@@ -48,9 +68,9 @@ function doShowWhitespace() {
 
 function doShowFileBrowser() {
     tinyMCE.activeEditor.windowManager.open({
-        file: mcefieldFileBrowserUrl,
-        width: 820,
-        height: 500,
+        file: mcefieldFileBrowserUrl + '?pop=1',
+        width: 980,
+        height: 550,
         resizable: "yes",
         scrollbars: "yes",
         inline: "yes",
