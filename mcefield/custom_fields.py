@@ -40,7 +40,6 @@ class MCEWidget(Textarea):
 
     def _media(self):
         js_list = [
-            'admin/js/jquery.js',
             'js/tiny_mce/tiny_mce.js',
             'js/mce_site.js'
         ]
@@ -51,7 +50,7 @@ class MCEWidget(Textarea):
             js_list.append('js/mce_global.js?%s' % conf_string)
         else:
             js_list.append('js/mce_global.js')
-        js = map (lambda p: settings.STATIC_URL + p, js_list)
+        js = map(lambda p: settings.STATIC_URL + p, js_list)
         return forms.Media(js=js)
     media = property(_media)
 
