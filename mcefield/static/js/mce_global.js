@@ -11,7 +11,7 @@
 
     function CustomFileBrowser(field_name, url, type, win) {
 
-        var cmsURL = mcefieldFileBrowserUrl + '?pop=2' + '&type=' + type;
+        var cmsURL = mcefieldBrowseUrl + '?pop=2' + '&type=' + type;
 
         tinyMCE.activeEditor.windowManager.open({
             file: cmsURL,
@@ -67,7 +67,7 @@
 
     function doShowFileBrowser() {
         tinyMCE.activeEditor.windowManager.open({
-            file: mcefieldFileBrowserUrl + '?pop=1',
+            file: mcefieldBrowseUrl + '?pop=1',
             width: 980,
             height: 550,
             resizable: "yes",
@@ -75,6 +75,20 @@
             inline: "yes",
             close_previous: "no"
         }, {});
+    }
+
+    function doShowUpload(dir) {
+        return function() {
+            tinyMCE.activeEditor.windowManager.open({
+                file: mcefieldUploadUrl + '?pop=1&dir=' + dir,
+                width: 980,
+                height: 550,
+                resizable: "yes",
+                scrollbars: "yes",
+                inline: "yes",
+                close_previous: "no"
+            }, {});
+        }
     }
 
     tinyMCE_config = {
@@ -87,7 +101,7 @@
         theme_advanced_statusbar_location: "bottom",
         content_css: "/static/stylesheets/mcestyles.css?" + new Date().getTime(), // TODO Fix quick and dirty cache-busting
         theme_advanced_styles: extra_styles,
-        theme_advanced_buttons1: "formatselect,styleselect,removeformat,|,bold,italic,|,bullist,numlist,blockquote,|,undo,redo,|,link,unlink,anchor,|,image,fileBrowser,|,pdw_toggle",
+        theme_advanced_buttons1: "formatselect,styleselect,removeformat,|,bold,italic,|,bullist,numlist,blockquote,|,undo,redo,|,link,unlink,anchor,fileUpload,fileBrowser,|,image,imageUpload,|,pdw_toggle",
         theme_advanced_buttons2: "charmap,hr,|,search,replace,|,code,visualchars,|" + table_controls,
         theme_advanced_buttons3: "",
         theme_advanced_blockformats: "p,h2,h3",
@@ -108,7 +122,7 @@
             o.content = o.content.replace(/<!(?:--[\s\S]*?--\s*)?>\s*/g, '');
         },
         save_callback: cleanup_html,
-        // file_browser_callback: "CustomFileBrowser", //TODO
+         //file_browser_callback: "CustomFileBrowser", //TODO
         pdw_toggle_on: 1,
         pdw_toggle_toolbars: "2",
         setup: function(ed) {
@@ -119,7 +133,7 @@
                 onclick: doShowWhitespace
             });
 
-            if (mcefieldFileBrowserUrl) {
+            if (mcefieldBrowseUrl) {
                 ed.addButton('fileBrowser', {
                     title: 'Open Filebrowser',
                     image: '/static/js/tiny_mce/themes/advanced/img/iframe.gif',
@@ -127,6 +141,21 @@
                 });
             }
 
+            if (mcefieldUploadUrl) {
+                ed.addButton('imageUpload', {
+                    title: 'Upload an image',
+                    image: '/static/img/image_upload.png',
+                    onclick: doShowUpload('images')
+                });
+            }
+
+            if (mcefieldUploadUrl) {
+                ed.addButton('fileUpload', {
+                    title: 'Upload a document',
+                    image: '/static/img/file_upload.png',
+                    onclick: doShowUpload('documents')
+                });
+            }
             ed.onPreInit.add(function (ed) {
                 if (typeof(fontFaceCssTag) !== 'undefined') {
                     $(ed.contentDocument).find('head').append(fontFaceCssTag);
