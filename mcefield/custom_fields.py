@@ -39,19 +39,30 @@ class MCEWidget(Textarea):
         return mark_safe('<span>%s</span><br />%s' % (help_text, super(MCEWidget, self).render(*args, **kwargs)))
 
     def _media(self):
+        
+        if settings.MCEFIELD_MCEVERSION == '4.x':
+            mce_url = '//tinymce.cachefly.net/4.2/tinymce.min.js'
+            mce_config_url = 'js/mce_global.4.x.js'
+        else:
+            mce_url = 'js/tiny_mce/tiny_mce.js'
+            mce_config_url = 'js/mce_global.js'
+            
         js_list = [
-            'js/tiny_mce/tiny_mce.js',
+            mce_url,
             'js/mce_site.js'
         ]
+        
         if self.config_js_file:
             js_list.append(self.config_js_file)
+            
         if self.conf:
             conf_string = urlencode(self.conf)
-            js_list.append('js/mce_global.js?%s' % conf_string)
+            js_list.append('{}?{}'.format(mce_config_url, conf_string))
         else:
-            js_list.append('js/mce_global.js')
-        js = map(lambda p: settings.STATIC_URL + p, js_list)
-        return forms.Media(js=js)
+            js_list.append(mce_config_url)
+            
+        return forms.Media(js=js_list)
+    
     media = property(_media)
 
 
