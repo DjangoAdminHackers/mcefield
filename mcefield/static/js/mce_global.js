@@ -31,11 +31,11 @@
 
     function cleanup_html(element_id, html, body) {
 
-        html = html.replace(/<!--[\s\S]+?-->/gi, ''); //remove Word comments like conditional comments etc
+        html = html.replace(/<!--[\s\S]+?-->/gi, ''); // Remove Word comments like conditional comments etc
         content = $(html);
-        content.find('a[href]').each(function () {
-            // remove empty links
-            // if there is nothing left after removing <br />, &nbsp; and whitespace characters then the a tag is empty
+        content.find('a[href]').each(function() {
+            // Remove empty links
+            // If there is nothing left after removing <br />, &nbsp; and whitespace characters then the a tag is empty
             if ($(this).html().replace(/<br>/g, '').replace(/\s+/g, '').replace(/&nbsp;/g, '') == '') {
                 $(this).replaceWith($(this).html());
             }
@@ -73,7 +73,8 @@
             resizable: "yes",
             scrollbars: "yes",
             inline: "yes",
-            close_previous: "no"
+            close_previous: "yes",
+            popup_css: false 
         }, {});
     }
 
@@ -86,7 +87,8 @@
                 resizable: "yes",
                 scrollbars: "yes",
                 inline: "yes",
-                close_previous: "no"
+                close_previous: "yes",
+                popup_css: false
             }, {});
         }
     }
@@ -99,10 +101,21 @@
         theme_advanced_resize_horizontal: false,
         theme_advanced_path: false,
         theme_advanced_statusbar_location: "bottom",
-        content_css: "/static/stylesheets/mcestyles.css?" + new Date().getTime(), // TODO Fix quick and dirty cache-busting
+        content_css: "/static/css/mce_styles.css?" + new Date().getTime(),  // TODO This is quick and dirty cache-busting
         theme_advanced_styles: extra_styles,
-        theme_advanced_buttons1: "formatselect,styleselect,removeformat,|,bold,italic,|,bullist,numlist,blockquote,|,undo,redo,|,link,unlink,anchor,fileUpload,fileBrowser,|,image,imageUpload,|,pdw_toggle",
-        theme_advanced_buttons2: "charmap,hr,|,search,replace,|,code,visualchars,|" + table_controls,
+        theme_advanced_buttons1: (
+            "formatselect,styleselect,removeformat,|,"
+                + "bold,italic,|,"
+                + "bullist,numlist,blockquote,|,"
+                + "undo,redo,|,"
+                + "link,unlink,anchor,|,"
+                + "image,|,"
+                + "imageUpload,fileUpload,fileBrowser,|,caption,"
+                + "pdw_toggle"
+        ),
+        theme_advanced_buttons2: (
+            "charmap,hr,|,search,replace,|,code,visualchars,|" + table_controls
+        ),
         theme_advanced_buttons3: "",
         theme_advanced_blockformats: "p,h2,h3",
         width: content_width + 18,
@@ -117,8 +130,20 @@
         external_link_list_url: "/admin/cms/linklist.js",
         auto_cleanup_word: true,
         plugins: "inlinepopups, paste, searchreplace, advimagescale, visualchars, autoresize, noneditable, pdw" + extra_plugins,
-        valid_elements: ("-h2/h1[___],-h3/h4/h5[___],p[___],ul[___],-li,-ol,blockquote,br,-em/i,-strong/b,-span[!___],-div[!___],a[!name|!href|title|target],hr,img[src|class<left?right?center?floatleft?floatright|alt|title|height|width]" + table_elements).replace(/___/g, extra_classes),
-        paste_preprocess: function (pl, o) {
+        valid_elements: (
+            "-h2/h1[___],-h3/h4/h5[___],"
+                + "p[___],"
+                + "ul[___],-li,-ol,"
+                + "blockquote,"
+                + "br,"
+                + "-em/i,-strong/b,"
+                + "-span[!___],-div[!___],"
+                + "a[!name|!href|title|target],"
+                + "hr,"
+                + "img[src|class<left?right?center?floatleft?floatright|alt|title|height|width]"
+                + table_elements
+        ).replace(/___/g, extra_classes),
+        paste_preprocess: function(pl, o) {
             o.content = o.content.replace(/<!(?:--[\s\S]*?--\s*)?>\s*/g, '');
         },
         save_callback: cleanup_html,
@@ -156,7 +181,7 @@
                     onclick: doShowUpload('documents')
                 });
             }
-            ed.onPreInit.add(function (ed) {
+            ed.onPreInit.add(function(ed) {
                 if (typeof(fontFaceCssTag) !== 'undefined') {
                     $(ed.contentDocument).find('head').append(fontFaceCssTag);
                 }
@@ -207,7 +232,7 @@
     tinyMCE.init(tinyMCE_config);
 
     function process_inline_mce(){
-        $(".mce_fields").not('.empty-form .mce_fields').filter(':visible').not('[id*=__prefix__]').each(function (i) {
+        $(".mce_fields").not('.empty-form .mce_fields').filter(':visible').not('[id*=__prefix__]').each(function(i) {
             tinyMCE.execCommand("mceAddControl", true, this.id);
             $(this).removeClass('mce_fields');
         });
@@ -219,7 +244,7 @@
             tinyMCE.execCommand("mceAddControl", true, this.id);
             $(this).removeClass('mce_fields').addClass('mce_inited');
         });
-        $('.add-row').on('mouseup', 'a', function () {
+        $('.add-row').on('mouseup', 'a', function() {
             setTimeout('process_inline_mce()', 200)
         });
     }
