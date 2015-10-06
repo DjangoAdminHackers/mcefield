@@ -40,7 +40,7 @@ class MCEWidget(Textarea):
 
     def _media(self):
         
-        if settings.MCEFIELD_MCEVERSION == '4.x':
+        if getattr(settings, 'MCEFIELD_MCEVERSION', False) == '4.x':
             mce_url = '//tinymce.cachefly.net/4.2/tinymce.min.js'
             mce_config_url = 'js/mce_global.4.x.js'
         else:
