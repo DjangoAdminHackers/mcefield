@@ -97,29 +97,28 @@
         }
     }
 
-    tinyMCE_config = {
-        mode: "none",
-        theme_advanced_resizing: true,
-        theme_advanced_resize_horizontal: false,
-        theme_advanced_path: false,
-        theme_advanced_statusbar_location: "bottom",
-        theme_advanced_styles: extra_styles,
-        theme_advanced_blockformats: "p,h2,h3",
-        cleanup_on_startup: true,
-        convert_urls: false,
-        fix_list_elements: true,
-        fix_nesting: true,
-        fix_table_elements: true,
-        gecko_spellcheck: true,
-        use_native_selects: false,
-        external_link_list_url: "/admin/cms/linklist.js",
-        auto_cleanup_word: true
-    };
+    //tinyMCE_config = {
+    //    mode: "none",
+    //    theme_advanced_resizing: true,
+    //    theme_advanced_resize_horizontal: false,
+    //    theme_advanced_path: false,
+    //    theme_advanced_statusbar_location: "bottom",
+    //    theme_advanced_styles: extra_styles,
+    //    theme_advanced_blockformats: "p,h2,h3",
+    //    cleanup_on_startup: true,
+    //    convert_urls: false,
+    //    fix_list_elements: true,
+    //    fix_nesting: true,
+    //    fix_table_elements: true,
+    //    gecko_spellcheck: true,
+    //    use_native_selects: false,
+    //    external_link_list_url: "/admin/cms/linklist.js",
+    //    auto_cleanup_word: true
+    //};
     
     tinyMCE_config = {
-        selector: "textarea",
-        //content_css: "/static/css/mce_styles.css",
-        //cache_suffix: "?v=" + new Date().getTime(),  // TODO This is quick and dirty cache-busting
+        content_css: "/static/css/mce_styles.css",
+        cache_suffix: "?v=" + new Date().getTime(),  // TODO This is quick and dirty cache-busting
         plugins: "autolink, image, link, anchor, paste, searchreplace, visualchars, charmap, code, hr, media, preview, template, visualblocks, autoresize,  " + extra_plugins,
         external_plugins: {
             //"caption": "/static/plugins/caption/plugin.js",
@@ -254,16 +253,21 @@
     }
 
     function mce_init(){
-        $(".mce_fields").not('.empty-form .mce_fields').not('.mce_inited').not('[id*=__prefix__]').each(function (i) {
-            tinyMCE.execCommand("mceAddControl", true, this.id);
-            $(this).removeClass('mce_fields').addClass('mce_inited');
-        });
+        console.log('mce_init');
+        $(".mce_fields")
+            .not('.empty-form .mce_fields')
+            .not('.mce_inited')
+            .not('[id*=__prefix__]')
+            .each(function (i) {
+                tinyMCE.execCommand("mceAddControl", true, this.id);
+                $(this).removeClass('mce_fields').addClass('mce_inited');
+            });
         $('.add-row').on('mouseup', 'a', function() {
             setTimeout('process_inline_mce()', 200)
         });
     }
 
     $(document).ready(function() {
-        mce_init()
+        mce_init();
     });
 });
