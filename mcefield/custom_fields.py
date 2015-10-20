@@ -36,7 +36,12 @@ class MCEWidget(Textarea):
 
     def render(self, *args, **kwargs):
         help_text = random.choice(help_list)
-        return mark_safe('<span>%s</span><br />%s' % (help_text, super(MCEWidget, self).render(*args, **kwargs)))
+        return mark_safe(
+            "<div class='mcefield-wrapper'>{}<div class='mcefield-tip'>{}</div></div>".format(
+                super(MCEWidget, self).render(*args, **kwargs),
+                help_text,
+            )
+        )
 
     def _media(self):
         
