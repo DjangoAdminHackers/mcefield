@@ -37,7 +37,7 @@ class MCEWidget(Textarea):
     def render(self, *args, **kwargs):
         help_text = random.choice(help_list)
         return mark_safe(
-            "<div class='mcefield-wrapper'>{}<div class='mcefield-tip'>{}</div></div>".format(
+            u"<div class='mcefield-wrapper'>{}<div class='mcefield-tip'>{}</div></div>".format(
                 super(MCEWidget, self).render(*args, **kwargs),
                 help_text,
             )
