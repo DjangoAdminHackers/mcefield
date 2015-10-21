@@ -5,13 +5,22 @@
         var site_mce_config = {};
     }
     
-    // var extra_styles = site_mce_config.extra_styles || "Regular=dummystyle"; // TODO make configurable
-    var extra_styles = [{'title': 'Regular', 'classes': 'dummystyle'}];  // TODO merge site_mce_config.extra_styles 
-    var extra_classes = site_mce_config.extra_classes || "class<dummystyle"; // TODO make configurable
+    var extra_styles = site_mce_config.extra_styles || []; // e.g. {title: 'Red text', inline: 'span', styles: {color: '#ff0000'}}
+    var extra_classes = site_mce_config.extra_classes || ''; // e.g. class<dummystyle
+    var extra_plugins = site_mce_config.extra_plugins || ''; // e.g. ", table"
     var content_width = site_mce_config.content_width || 690; // TODO this should relate to site's content width to give accurate idea of line lengths
-    var table_controls = site_mce_config.table_controls || ", tablecontrols";
-    var extra_plugins = site_mce_config.extra_plugins || ", table";
-    var table_elements = site_mce_config.table_elements || ",table,tr,th,#td,thead,tbody";
+    var valid_elements = "-h2/h1[___],-h3/h4/h5[___],"
+        + "p[___],"
+        + "ul[___],-li,-ol,"
+        + "blockquote,"
+        + "br,"
+        + "-em/i,-strong/b,"
+        + "-span[!___],-div[!___],"
+        + "a[!name|!href|title|target],"
+        + "hr,"
+        + "img[src|class<left?right?center?floatleft?floatright|alt|title|height|width]";
+    
+    valid_elements.replace(/___/g, extra_classes);
     
     function CustomFileBrowser(field_name, url, type, win) {
     
@@ -19,11 +28,11 @@
 
         tinyMCE.activeEditor.windowManager.open({
             file: cmsURL,
-            width: 980,  // Your dimensions may differ - toy around with them!
+            width: 980,
             height: 550,
             resizable: 'yes',
             scrollbars: 'yes',
-            inline: 'yes',  // This parameter only has an effect if you use the inlinepopups plugin!
+            inline: 'yes',
             close_previous: 'no'
         }, {
             window: win,
@@ -98,46 +107,50 @@
     }
 
     //tinyMCE_config = {
-    //    mode: "none",
     //    theme_advanced_resizing: true,
     //    theme_advanced_resize_horizontal: false,
     //    theme_advanced_path: false,
-    //    theme_advanced_statusbar_location: "bottom",
-    //    theme_advanced_styles: extra_styles,
-    //    theme_advanced_blockformats: "p,h2,h3",
     //    cleanup_on_startup: true,
     //    convert_urls: false,
     //    fix_list_elements: true,
     //    fix_nesting: true,
     //    fix_table_elements: true,
     //    gecko_spellcheck: true,
-    //    use_native_selects: false,
-    //    external_link_list_url: "/admin/cms/linklist.js",
     //    auto_cleanup_word: true
     //};
     
-    tinyMCE_config = {
+    var tinyMCE_config = {
+        block_formats: "Paragraph=p;Heading=h2;Sub-heading=h3",
+        formats : {
+                alignleft : {selector : 'img', classes : 'left'},
+                aligncenter : {selector : 'img', classes : 'center'},
+                alignright : {selector : 'img', classes : 'right'},
+                alignfull : {selector : 'img', classes : 'full'}
+                //bold : {inline : 'span', 'classes' : 'bold'},
+                //italic : {inline : 'span', 'classes' : 'italic'},
+                //underline : {inline : 'span', 'classes' : 'underline', exact : true},
+                //strikethrough : {inline : 'del'},
+                //forecolor : {inline : 'span', classes : 'forecolor', styles : {color : '%value'}},
+                //hilitecolor : {inline : 'span', classes : 'hilitecolor', styles : {backgroundColor : '%value'}},
+                //custom_format : {block : 'h1', attributes : {title : "Header"}, styles : {color : red}}
+        },
+        style_formats: [
+            {title: "Alignment", items: [
+                {title: "Left", icon: "alignleft", format: "left"},
+                {title: "Left with wrapping", icon: "alignleft", format: "floatleft"},
+                {title: "Center", icon: "aligncenter", format: "center"},
+                {title: "Right", icon: "alignright", format: "right"},
+                {title: "Right with wrapping", icon: "alignright", format: "floatright"}
+            ]}
+        ].concat(extra_styles), 
+        style_formats_merge: false,
         content_css: "/static/css/mce_styles.css",
         cache_suffix: "?v=" + new Date().getTime(),  // TODO This is quick and dirty cache-busting
-        plugins: "autolink, image, link, anchor, paste, searchreplace, visualchars, charmap, code, hr, media, preview, template, visualblocks, autoresize,  " + extra_plugins,
+        plugins: "autolink, image, link, anchor, paste, searchreplace, visualchars, charmap, code, hr, media, preview, template, visualblocks, autoresize" + extra_plugins,
         external_plugins: {
-            //"caption": "/static/plugins/caption/plugin.js",
+            "caption": "/static/js/mce_plugins/ixxy_image/plugin.js"
         },
-        style_formats: extra_styles,
-        style_formats_merge: extra_styles,
-        valid_elements: (
-            "-h2/h1[___],-h3/h4/h5[___],"
-                + "p[___],"
-                + "ul[___],-li,-ol,"
-                + "blockquote,"
-                + "br,"
-                + "-em/i,-strong/b,"
-                + "-span[!___],-div[!___],"
-                + "a[!name|!href|title|target],"
-                + "hr,"
-                + "img[src|class<left?right?center?floatleft?floatright|alt|title|height|width]"
-                + table_elements
-        ).replace(/___/g, extra_classes),
+        valid_elements: valid_elements,
         paste_preprocess: function(pl, o) {
             o.content = o.content.replace(/<!(?:--[\s\S]*?--\s*)?>\s*/g, '');
         },
@@ -155,12 +168,11 @@
         ],
         target_list: false,
         toolbar: [
-            "formatselect styleselect removeformat | bold italic | bullist numlist blockquote | undo redo",
-            "link unlink anchor | image | imageUpload fileUpload fileBrowser"
-            //"charmap hr | searchreplace | code visualchars visualblocks |" + table_controls
+            "formatselect styleselect | bold italic removeformat | bullist numlist blockquote | undo redo | link unlink anchor | image | imageUpload fileUpload fileBrowser | code"
+            //"charmap hr | searchreplace | code visualchars visualblocks |"
         ],
         menubar: false,
-        //width: content_width + 18,
+        width: content_width + 18,
         
         setup: function(ed) {
 
@@ -202,22 +214,13 @@
         }
     }
 
-    // Alternate config for HTML snippets
-    nonblocklevel_tinyMCE_config = $.extend(true, {}, tinyMCE_config);
-    nonblocklevel_tinyMCE_config['theme_advanced_blockformats'] = "p";
-    nonblocklevel_tinyMCE_config['theme_advanced_buttons1'] = "styleselect removeformat | bold italic | undo redo | link unlink anchor | fileBrowser";
-    nonblocklevel_tinyMCE_config['theme_advanced_buttons2'] = "charmap | search replace | code showWhitespace |";
-    nonblocklevel_tinyMCE_config['forced_root_block'] = '';
-    nonblocklevel_tinyMCE_config['force_br_newlines'] = true;
-    nonblocklevel_tinyMCE_config['force_p_newlines'] = false;
-
-    //per site tinyMCE_config
+    // per site tinyMCE_config
     if (typeof(site_mce_config) != 'undefined') {
         $.extend(tinyMCE_config, site_mce_config)
     }
 
-    //Parse the per field conf parameter
-    //content = MCEField(blank=True, null=True, conf={'width':999})
+    // Parse the per field conf parameter
+    // content = MCEField(blank=True, null=True, conf={'width':999})
     function parseQuery(query) {
         var Params = new Object();
         if (!query) return Params; // return empty object
@@ -241,7 +244,7 @@
         tinyMCE_config[attr] = field_mce_conf[attr]
     }
 
-    //document.domain = document.domain.replace('www.', '').replace('static.', '');
+    // document.domain = document.domain.replace('www.', '').replace('static.', '');
     tinyMCE.init(tinyMCE_config);
 
     function process_inline_mce(){
@@ -252,19 +255,23 @@
 
     }
 
-    function mce_init(){
-        console.log('mce_init');
-        $(".mce_fields")
+    function mce_init() {
+        
+        var mceFields = $(".mce_fields")
             .not('.empty-form .mce_fields')
             .not('.mce_inited')
-            .not('[id*=__prefix__]')
-            .each(function (i) {
-                tinyMCE.execCommand("mceAddControl", true, this.id);
-                $(this).removeClass('mce_fields').addClass('mce_inited');
-            });
+            .not('[id*=__prefix__]');
+            
+        mceFields.each(function(i) {
+            tinyMCE.execCommand('mceAddEditor', true, this.id);
+            $(this).removeClass('mce_fields').addClass('mce_inited');
+        });
+
+        // See if we need to init mce whenever we add a new inline
         $('.add-row').on('mouseup', 'a', function() {
             setTimeout('process_inline_mce()', 200)
         });
+
     }
 
     $(document).ready(function() {
