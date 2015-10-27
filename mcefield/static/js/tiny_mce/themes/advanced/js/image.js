@@ -1,3 +1,14 @@
+// AndyB
+function addCaption() {
+	var existingAlt = document.getElementById('alt').value;
+	if (existingAlt.substr(0, 2)!='::') {
+		if (existingAlt=='') {
+			existingAlt = 'Add caption here';
+		}
+		document.getElementById('alt').value = ":: " + existingAlt;
+	}
+}
+
 var ImageDialog = {
 	preInit : function() {
 		var url;
@@ -11,6 +22,16 @@ var ImageDialog = {
 	init : function() {
 		var f = document.forms[0], ed = tinyMCEPopup.editor;
 
+		
+		// AndyB
+		if (tinyMCEPopup.getParam('ixxy_use_image_captions', false)) {
+			var elems = document.getElementsByClassName('caption-only');
+			// Wow. Vanilla browser js is sucky
+			for(var i = 0; i != elems.length; ++i) {
+				elems[i].style.display = "inline";
+			}
+		}
+				
 		// Setup browse button
 		document.getElementById('srcbrowsercontainer').innerHTML = getBrowserHTML('srcbrowser','src','image','theme_advanced_image');
 		if (isVisible('srcbrowser'))
