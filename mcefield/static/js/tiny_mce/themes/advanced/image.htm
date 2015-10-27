@@ -8,7 +8,13 @@
 	<script type="text/javascript" src="js/image.js"></script>
 	<script>
     function addCaption() {
-      document.getElementById('alt').value = "::Add caption here";
+        var existingAlt = document.getElementById('alt').value;
+        if (existingAlt.substr(0, 2)!='::') {
+            if (existingAlt=='') {
+                existingAlt = 'Add caption here';
+            }
+            document.getElementById('alt').value = ":: " + existingAlt;
+        }
     }
   </script>
 </head>
@@ -34,7 +40,7 @@
 				</tr>
 				<tr>
 					<td><label for="image_list">{#advanced_dlg.image_list}</label></td>
-					<td><select id="image_list" name="image_list" onchange="document.getElementById('src').value=this.options[this.selectedIndex].value;document.getElementById('alt').value=this.options[this.selectedIndex].text;"></select></td>
+					<td><select id="image_list" name="image_list" onchange="document.getElementById('src').value=this.options[this.selectedIndex].value;"></select></td>
 				</tr>
 				<tr>
 					<td class="nowrap">
