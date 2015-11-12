@@ -8,7 +8,7 @@
     var extra_styles = site_mce_config.extra_styles || []; // e.g. {title: 'Red text', inline: 'span', styles: {color: '#ff0000'}}
     var extra_classes = site_mce_config.extra_classes || ''; // e.g. class<dummystyle
     var extra_plugins = site_mce_config.extra_plugins || ''; // e.g. ", table"
-    var content_width = site_mce_config.content_width || 690; // TODO this should relate to site's content width to give accurate idea of line lengths
+    var content_width = site_mce_config.content_width || 780; // TODO this should relate to site's content width to give accurate idea of line lengths
     var valid_elements = "-h2/h1[___],-h3/h4/h5[___],"
         + "p[___],"
         + "ul[___],-li,-ol,"
@@ -80,7 +80,7 @@
 
     function doShowFileBrowser() {
         tinyMCE.activeEditor.windowManager.open({
-            file: mcefieldBrowseUrl + '?pop=1',
+            file: mcefieldBrowseUrl + '?pop=1&ixxy_mce=1&type=file',
             width: 980,
             height: 550,
             resizable: "yes",
@@ -91,10 +91,10 @@
         }, {});
     }
 
-    function doShowUpload(dir) {
+    function doShowUpload(dir, format) {
         return function() {
             tinyMCE.activeEditor.windowManager.open({
-                file: mcefieldUploadUrl + '?pop=1&dir=' + dir,
+                file: mcefieldUploadUrl + '?pop=1&dir=' + dir + '&type=' + format,
                 width: 980,
                 height: 550,
                 resizable: "yes",
@@ -194,7 +194,7 @@
                 ed.addButton('imageUpload', {
                     title: 'Upload an image',
                     image: '/static/img/image_upload.png',
-                    onclick: doShowUpload('images')
+                    onclick: doShowUpload('images', 'image')
                 });
             }
 
@@ -202,7 +202,7 @@
                 ed.addButton('fileUpload', {
                     title: 'Upload a document',
                     image: '/static/img/file_upload.png',
-                    onclick: doShowUpload('documents')
+                    onclick: doShowUpload('documents', 'file')
                 });
             }
 
