@@ -216,7 +216,7 @@
 
     // per site tinyMCE_config
     if (typeof(site_mce_config) != 'undefined') {
-        $.extend(tinyMCE_config, site_mce_config)
+        $.extend(tinyMCE_config, site_mce_config);
     }
 
     // Parse the per field conf parameter
@@ -236,16 +236,7 @@
         return Params;
     }
 
-    var scripts = document.getElementsByTagName('script');
-    var current_ccript = scripts[scripts.length - 1];
-    var query_string = current_ccript.src.replace(/^[^\?]+\??/, '');
-    var field_mce_conf = parseQuery(query_string);
-    for (attr in field_mce_conf) {
-        tinyMCE_config[attr] = field_mce_conf[attr]
-    }
-
     // document.domain = document.domain.replace('www.', '').replace('static.', '');
-    tinyMCE.init(tinyMCE_config);
 
     function process_inline_mce(){
         $(".mce_fields").not('.empty-form .mce_fields').filter(':visible').not('[id*=__prefix__]').each(function(i) {
@@ -263,7 +254,14 @@
             .not('[id*=__prefix__]');
             
         mceFields.each(function(i) {
-            tinyMCE.execCommand('mceAddEditor', true, this.id);
+            var selector = '#' + this.id;
+            var field_tinyMCE_config = {'selector': '#' + this.id};
+            $.extend(field_tinyMCE_config, tinyMCE_config);
+            $.extend(
+                field_tinyMCE_config,
+                $(selector).parent().data()['mceConf']
+            );
+            tinymce.init(field_tinyMCE_config);
             $(this).removeClass('mce_fields').addClass('mce_inited');
         });
 
@@ -273,8 +271,9 @@
         });
 
     }
-
+    
     $(document).ready(function() {
+        
         mce_init();
     });
 });

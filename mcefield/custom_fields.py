@@ -1,9 +1,10 @@
+import json
 import random
 from django import forms
 from django.conf import settings
 from django.db import models
 from django.forms.widgets import Textarea
-from django.utils.http import urlencode
+from django.utils.html import escape
 from django.utils.safestring import mark_safe
 
 
@@ -15,6 +16,7 @@ help_list = [
 
 
 class MCEWidget(Textarea):
+    
     def __init__(self, attrs=None, *args, **kwargs):
         self.config_js_file = kwargs.pop('config_js_file', '')
         default_conf = {}
@@ -34,11 +36,16 @@ class MCEWidget(Textarea):
             pass
         super(MCEWidget, self).__init__(attrs=default_attrs, *args, **kwargs)
 
-    def render(self, *args, **kwargs):
+    def render(self, name, value, attrs=None):
+        
         help_text = random.choice(help_list)
+
         return mark_safe(
-            u"<div class='mcefield-wrapper'>{}<div class='mcefield-tip'>{}</div></div>".format(
-                super(MCEWidget, self).render(*args, **kwargs),
+            u'<div data-mce-conf="{}" class="mcefield-wrapper">{}'
+            u'    <div class="mcefield-tip">{}</div>'
+            u"</div>".format(
+                escape(json.dumps(self.conf)),
+                super(MCEWidget, self).render(name, value, attrs),
                 help_text,
             )
         )
@@ -54,17 +61,12 @@ class MCEWidget(Textarea):
             
         js_list = [
             mce_url,
-            'js/mce_site.js'
+            'js/mce_site.js',
+            mce_config_url,
         ]
         
         if self.config_js_file:
             js_list.append(self.config_js_file)
-            
-        if self.conf:
-            conf_string = urlencode(self.conf)
-            js_list.append('{}?{}'.format(mce_config_url, conf_string))
-        else:
-            js_list.append(mce_config_url)
             
         return forms.Media(js=js_list)
     
