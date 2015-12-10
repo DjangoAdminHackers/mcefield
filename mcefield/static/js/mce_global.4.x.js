@@ -254,6 +254,7 @@
         
         var mceFields = $(".mce_fields")
             .not('.empty-form .mce_fields')
+            .filter(':visible')
             .not('.mce_inited')
             .not('[id*=__prefix__]');
             
