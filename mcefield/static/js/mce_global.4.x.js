@@ -239,10 +239,14 @@
     // document.domain = document.domain.replace('www.', '').replace('static.', '');
 
     function process_inline_mce(){
-        $(".mce_fields").not('.empty-form .mce_fields').filter(':visible').not('[id*=__prefix__]').each(function(i) {
-            tinyMCE.execCommand("mceAddControl", true, this.id);
-            $(this).removeClass('mce_fields');
-        });
+        $(".mce_fields")
+            .not('.empty-form .mce_fields')
+            .filter(':visible')
+            .not('[id*=__prefix__]')
+            .each(function(i) {
+                tinyMCE.execCommand("mceAddControl", true, this.id);
+                $(this).removeClass('mce_fields');
+            });
 
     }
 
