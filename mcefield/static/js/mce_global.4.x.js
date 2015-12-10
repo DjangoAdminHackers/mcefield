@@ -254,6 +254,7 @@
             .not('[id*=__prefix__]');
             
         mceFields.each(function(i) {
+            
             var selector = '#' + this.id;
             var field_tinyMCE_config = {'selector': '#' + this.id};
             $.extend(field_tinyMCE_config, tinyMCE_config);
@@ -265,7 +266,7 @@
             $(this).removeClass('mce_fields').addClass('mce_inited');
         });
 
-        // See if we need to init mce whenever we add a new inline
+        // 'Add another' on inlines triggers a check to reinit MCE fields
         $('.add-row').on('mouseup', 'a', function() {
             setTimeout('process_inline_mce()', 200)
         });
@@ -273,7 +274,6 @@
     }
     
     $(document).ready(function() {
-        
         mce_init();
     });
 });
