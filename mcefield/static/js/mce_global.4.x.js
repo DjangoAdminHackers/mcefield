@@ -8,7 +8,7 @@
     var extra_styles = site_mce_config.extra_styles || []; // e.g. {title: 'Red text', inline: 'span', styles: {color: '#ff0000'}}
     var extra_classes = site_mce_config.extra_classes || ''; // e.g. class<dummystyle
     var extra_plugins = site_mce_config.extra_plugins || ''; // e.g. ", table"
-    var content_width = site_mce_config.content_width || 780; // TODO this should relate to site's content width to give accurate idea of line lengths
+    var content_width = site_mce_config.content_width || 800; // TODO this should relate to site's content width to give accurate idea of line lengths
     var valid_elements = "-h2/h1[___],-h3/h4/h5[___],"
         + "p[___],"
         + "ul[___],-li,-ol,"
