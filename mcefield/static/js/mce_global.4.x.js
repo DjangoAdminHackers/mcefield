@@ -146,6 +146,7 @@
         style_formats_merge: false,
         content_css: "/static/css/mce_styles.css",
         cache_suffix: "?v=" + new Date().getTime(),  // TODO This is quick and dirty cache-busting
+        convert_urls: false,
         plugins: "autolink, image, link, anchor, paste, searchreplace, visualchars, charmap, code, hr, media, preview, template, visualblocks, autoresize" + extra_plugins,
         external_plugins: {
             "caption": "/static/js/mce_plugins/ixxy_image/plugin.js"
