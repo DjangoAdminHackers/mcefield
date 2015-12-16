@@ -166,7 +166,7 @@
         ].concat(extra_image_classes),
         target_list: false,
         toolbar: [
-            "formatselect styleselect | bold italic removeformat | bullist numlist blockquote | link unlink anchor | image media | imageUpload fileUpload fileBrowser | code"
+            "formatselect styleselect | bold italic removeformat | bullist numlist blockquote hr | link unlink anchor | image media | imageUpload fileUpload fileBrowser | code"
             //"undo redo | charmap hr | searchreplace | visualchars visualblocks"
         ],
         menubar: false,
