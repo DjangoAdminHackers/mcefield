@@ -1,14 +1,16 @@
 ($ || django.jQuery)(function($) {
     
     // per-site tinyMCE_config
-    if (typeof(site_mce_config) == 'undefined'){
-        var site_mce_config = {};
+    if (typeof(window.site_mce_config) == 'undefined'){
+        window.site_mce_config = {};
     }
     
-    var extra_styles = site_mce_config.extra_styles || []; // e.g. {title: 'Red text', inline: 'span', styles: {color: '#ff0000'}}
-    var extra_classes = site_mce_config.extra_classes || ''; // e.g. class<dummystyle
-    var extra_plugins = site_mce_config.extra_plugins || ''; // e.g. ", table"
-    var content_width = site_mce_config.content_width || 800; // TODO this should relate to site's content width to give accurate idea of line lengths
+    var extra_styles = window.site_mce_config.extra_styles || []; // e.g. {title: 'Red text', inline: 'span', styles: {color: '#ff0000'}}
+    var extra_classes = window.site_mce_config.extra_classes || ''; // e.g. class<dummystyle
+    var extra_image_classes = window.site_mce_config.extra_image_classes || []; // e.g. [{title: 'Left', value: 'left'}, {title: 'Right', value: 'right'}]
+    var extra_plugins = window.site_mce_config.extra_plugins || ''; // e.g. ", table"
+    var content_width = window.site_mce_config.content_width || 800; // TODO this should relate to site's content width to give accurate idea of line lengths
+    
     var valid_elements = "-h2/h1[___],-h3/h4/h5[___],"
         + "p[___],"
         + "ul[___],-li,-ol,"
@@ -18,6 +20,8 @@
         + "-span[!___],-div[!___],"
         + "a[!name|!href|title|target],"
         + "hr,"
+        + "iframe[src|allowfullscreen],"
+        + "figure,figcaption,"
         + "img[src|class<left?right?center?floatleft?floatright|alt|title|height|width]";
     
     valid_elements.replace(/___/g, extra_classes);
@@ -147,10 +151,16 @@
         content_css: "/static/css/mce_styles.css",
         cache_suffix: "?v=" + new Date().getTime(),  // TODO This is quick and dirty cache-busting
         convert_urls: false,
-        plugins: "autolink, image, link, anchor, paste, searchreplace, visualchars, charmap, code, hr, media, preview, template, visualblocks, autoresize" + extra_plugins,
+        plugins: "media, autolink, image, link, anchor, paste, searchreplace, visualchars, charmap, code, hr, media, preview, template, visualblocks, autoresize" + extra_plugins,
         external_plugins: {
             "caption": "/static/js/mce_plugins/ixxy_image/plugin.js"
         },
+        image_caption: true,
+        media_alt_source: false,
+        media_poster: false,
+        media_dimensions: false,
+        media_live_embeds: true,
+        object_resizing: false,
         valid_elements: valid_elements,
         paste_preprocess: function(pl, o) {
             o.content = o.content.replace(/<!(?:--[\s\S]*?--\s*)?>\s*/g, '');
@@ -160,17 +170,12 @@
         image_list: "/admin/cms/imagelist.json",
         image_dimensions: false,
         image_class_list: [
-            {title: 'None', value: ''},
-            {title: 'Align left', value: 'left'},
-            {title: 'Align right', value: 'right'},
-            {title: 'Align to centre', value: 'center'},
-            {title: 'Align left with text wrapping', value: 'floatleft'},
-            {title: 'Align right with text wrapping', value: 'floatright'}
-        ],
+            {title: 'None', value: ''}
+        ].concat(extra_image_classes),
         target_list: false,
         toolbar: [
-            "formatselect styleselect | bold italic removeformat | bullist numlist blockquote | undo redo | link unlink anchor | image | imageUpload fileUpload fileBrowser | code"
-            //"charmap hr | searchreplace | code visualchars visualblocks |"
+            "formatselect styleselect | bold italic removeformat | bullist numlist blockquote | link unlink anchor | image media | imageUpload fileUpload fileBrowser | code"
+            //"undo redo | charmap hr | searchreplace | visualchars visualblocks"
         ],
         menubar: false,
         width: content_width + 18,
@@ -215,10 +220,7 @@
         }
     }
 
-    // per site tinyMCE_config
-    if (typeof(site_mce_config) != 'undefined') {
-        $.extend(tinyMCE_config, site_mce_config);
-    }
+    $.extend(tinyMCE_config, window.site_mce_config);
 
     // Parse the per field conf parameter
     // content = MCEField(blank=True, null=True, conf={'width':999})
@@ -239,7 +241,7 @@
 
     // document.domain = document.domain.replace('www.', '').replace('static.', '');
 
-    function process_inline_mce(){
+    window.process_inline_mce = function(){
         $(".mce_fields")
             .not('.empty-form .mce_fields')
             .filter(':visible')
@@ -274,7 +276,7 @@
 
         // 'Add another' on inlines triggers a check to reinit MCE fields
         $('.add-row').on('mouseup', 'a', function() {
-            setTimeout('process_inline_mce()', 200)
+            setTimeout('window.process_inline_mce()', 200)
         });
 
     }
