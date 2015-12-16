@@ -5,26 +5,28 @@
         window.site_mce_config = {};
     }
     
-    var extra_styles = window.site_mce_config.extra_styles || []; // e.g. {title: 'Red text', inline: 'span', styles: {color: '#ff0000'}}
-    var extra_classes = window.site_mce_config.extra_classes || ''; // e.g. class<dummystyle
-    var extra_image_classes = window.site_mce_config.extra_image_classes || []; // e.g. [{title: 'Left', value: 'left'}, {title: 'Right', value: 'right'}]
+    var text_styles = window.site_mce_config.text_styles || []; // e.g. {title: 'Red text', inline: 'span', styles: {color: '#ff0000'}}
+    var text_classes = window.site_mce_config.text_classes || []; // e.g. ['myclass1','myclass2']
+    var image_styles = window.site_mce_config.image_styles || []; // e.g. [{title: 'Left', value: 'left'}, {title: 'Right', value: 'right'}]
+    var image_classes = window.site_mce_config.image_classes || []; // e.g. ['myclass1', 'myclass2']
     var extra_plugins = window.site_mce_config.extra_plugins || ''; // e.g. ", table"
     var content_width = window.site_mce_config.content_width || 800; // TODO this should relate to site's content width to give accurate idea of line lengths
     
-    var valid_elements = "-h2/h1[___],-h3/h4/h5[___],"
-        + "p[___],"
-        + "ul[___],-li,-ol,"
+    var valid_elements = "-h2/h1[__text_classes__],-h3/h4/h5[__text_classes__],"
+        + "p[__text_classes__],"
+        + "ul[__text_classes__],-li,-ol,"
         + "blockquote,"
         + "br,"
         + "-em/i,-strong/b,"
-        + "-span[!___],-div[!___],"
-        + "a[!name|!href|title|target],"
+        + "-span[!__text_classes__],-div[!__text_classes__],"
+        + "a[!id|!href|title|target],"
         + "hr,"
         + "iframe[src|allowfullscreen],"
         + "figure,figcaption,"
-        + "img[src|class<left?right?center?floatleft?floatright|alt|title|height|width]";
+        + "img[src|__image_classes__|alt|title|height|width]";
     
-    valid_elements.replace(/___/g, extra_classes);
+    valid_elements = valid_elements.replace(/__text_classes__/g, 'class<' + text_classes.join(',class<'));
+    valid_elements = valid_elements.replace(/__image_classes__/g, 'class<' + image_classes.join(',class<'));
     
     function CustomFileBrowser(field_name, url, type, win) {
     
@@ -125,20 +127,9 @@
     
     var tinyMCE_config = {
         block_formats: "Paragraph=p;Heading=h2;Sub-heading=h3",
-        formats : {
-                alignleft : {selector : 'img', classes : 'left'},
-                aligncenter : {selector : 'img', classes : 'center'},
-                alignright : {selector : 'img', classes : 'right'},
-                alignfull : {selector : 'img', classes : 'full'}
-                //bold : {inline : 'span', 'classes' : 'bold'},
-                //italic : {inline : 'span', 'classes' : 'italic'},
-                //underline : {inline : 'span', 'classes' : 'underline', exact : true},
-                //strikethrough : {inline : 'del'},
-                //forecolor : {inline : 'span', classes : 'forecolor', styles : {color : '%value'}},
-                //hilitecolor : {inline : 'span', classes : 'hilitecolor', styles : {backgroundColor : '%value'}},
-                //custom_format : {block : 'h1', attributes : {title : "Header"}, styles : {color : red}}
-        },
-        style_formats: [/* Do we want any global styles? */].concat(extra_styles), 
+        style_formats: [
+            {title: 'None', inline: 'span', attributes: {class: ''}}
+        ].concat(text_styles), 
         style_formats_merge: false,
         content_css: "/static/css/mce_styles.css",
         cache_suffix: "?v=" + new Date().getTime(),  // TODO This is quick and dirty cache-busting
@@ -163,7 +154,7 @@
         image_dimensions: false,
         image_class_list: [
             {title: 'None', value: ''}
-        ].concat(extra_image_classes),
+        ].concat(image_styles),
         target_list: false,
         toolbar: [
             "formatselect styleselect | bold italic removeformat | bullist numlist blockquote hr | link unlink anchor | image media | imageUpload fileUpload fileBrowser | code"
