@@ -138,15 +138,7 @@
                 //hilitecolor : {inline : 'span', classes : 'hilitecolor', styles : {backgroundColor : '%value'}},
                 //custom_format : {block : 'h1', attributes : {title : "Header"}, styles : {color : red}}
         },
-        style_formats: [
-            {title: "Alignment", items: [
-                {title: "Left", icon: "alignleft", format: "left"},
-                {title: "Left with wrapping", icon: "alignleft", format: "floatleft"},
-                {title: "Center", icon: "aligncenter", format: "center"},
-                {title: "Right", icon: "alignright", format: "right"},
-                {title: "Right with wrapping", icon: "alignright", format: "floatright"}
-            ]}
-        ].concat(extra_styles), 
+        style_formats: [/* Do we want any global styles? */].concat(extra_styles), 
         style_formats_merge: false,
         content_css: "/static/css/mce_styles.css",
         cache_suffix: "?v=" + new Date().getTime(),  // TODO This is quick and dirty cache-busting
