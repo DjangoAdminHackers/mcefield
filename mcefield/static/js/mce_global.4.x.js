@@ -22,7 +22,7 @@
         + "a[!id|!href|title|target],"
         + "hr,"
         + "iframe[src|allowfullscreen],"
-        + "figure,figcaption,"
+        + "figure[!class<imageCaption],figcaption," // TODO imageCaption is specific to ixxy_image plugin
         + "img[__image_classes__src|alt|title]";
     
     var validElementsText = '';
@@ -40,8 +40,6 @@
     valid_elements = valid_elements.replace(/__text_classes__/g, validElementsText);
     valid_elements = valid_elements.replace(/__required_text_classes__/g, requiredValidElementsText);
     valid_elements = valid_elements.replace(/__image_classes__/g, validElementsImage);
-    
-    console.log(valid_elements);
     
     function CustomFileBrowser(field_name, url, type, win) {
     
@@ -149,7 +147,7 @@
         content_css: "/static/css/mce_styles.css",
         cache_suffix: "?v=" + new Date().getTime(),  // TODO This is quick and dirty cache-busting
         convert_urls: false,
-        plugins: "media, autolink, image, link, anchor, paste, searchreplace, visualchars, charmap, code, hr, media, preview, template, visualblocks, autoresize" + extra_plugins,
+        plugins: "media, autolink, link, anchor, paste, searchreplace, visualchars, charmap, code, hr, media, preview, template, visualblocks, autoresize" + extra_plugins,
         external_plugins: {
             "ixxy_image": "/static/js/mce_plugins/ixxy_image/plugin.js"
         },
@@ -165,14 +163,12 @@
         },
         save_callback: cleanup_html,
         link_list: "/admin/cms/linklist.json",
-        image_list: "/admin/cms/imagelist.json",
-        image_dimensions: false,
         image_class_list: [
             {title: 'None', value: ''}
         ].concat(image_styles),
         target_list: false,
         toolbar: [
-            "formatselect styleselect | bold italic removeformat | bullist numlist blockquote hr | link unlink anchor | image media | imageUpload fileUpload fileBrowser | code ixxy_image"
+            "formatselect styleselect | bold italic removeformat | bullist numlist blockquote hr | link unlink anchor | fileBrowser imageUpload fileUpload media | code"
             //"undo redo | charmap hr | searchreplace | visualchars visualblocks"
         ],
         menubar: false,
@@ -189,7 +185,7 @@
             if (mcefieldBrowseUrl) {
                 ed.addButton('fileBrowser', {
                     title: 'Open Filebrowser',
-                    image: '/static/filebrowser/img/filebrowser_icon_show.gif',
+                    icon: 'browse',
                     onclick: doShowFileBrowser
                 });
             }
@@ -197,7 +193,7 @@
             if (mcefieldUploadUrl) {
                 ed.addButton('imageUpload', {
                     title: 'Upload an image',
-                    image: '/static/img/image_upload.png',
+                    image: '/static/img/document_image_add_32.png',
                     onclick: doShowUpload('images', 'image')
                 });
             }
@@ -205,7 +201,7 @@
             if (mcefieldUploadUrl) {
                 ed.addButton('fileUpload', {
                     title: 'Upload a document',
-                    image: '/static/img/file_upload.png',
+                    image: '/static/img/notes_add_32.png',
                     onclick: doShowUpload('documents', 'file')
                 });
             }
