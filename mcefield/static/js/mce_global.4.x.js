@@ -18,7 +18,7 @@
         + "blockquote,"
         + "br,"
         + "-em/i,-strong/b,"
-        + "-span[!__text_classes__],-div[!__text_classes__],"
+        + "-span[__required_text_classes__],-div[__required_text_classes__],"
         + "a[!id|!href|title|target],"
         + "hr,"
         + "iframe[src|allowfullscreen],"
@@ -26,15 +26,19 @@
         + "img[__image_classes__src|alt|title]";
     
     var validElementsText = '';
+    var requiredValidElementsText = '';
     var validElementsImage = '';
     
     if (text_classes.length > 0) {
         validElementsText = 'class<' + text_classes.join('?');
+        // Tags without one of these classes will be entirely stripped
+        requiredValidElementsText = '!' + validElementsText;
     }
     if (image_classes.length > 0) {
         validElementsImage = 'class<' + image_classes.join('?') + '|';
     }
     valid_elements = valid_elements.replace(/__text_classes__/g, validElementsText);
+    valid_elements = valid_elements.replace(/__required_text_classes__/g, requiredValidElementsText);
     valid_elements = valid_elements.replace(/__image_classes__/g, validElementsImage);
     
     console.log(valid_elements);
