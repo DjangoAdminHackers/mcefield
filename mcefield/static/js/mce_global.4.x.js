@@ -23,14 +23,19 @@
         + "hr,"
         + "iframe[src|allowfullscreen],"
         + "figure,figcaption,"
-        + "img[src|__image_classes__|alt|title|height|width]";
+        + "img[__image_classes__src|alt|title]";
+    
+    var validElementsText = '';
+    var validElementsImage = '';
     
     if (text_classes.length > 0) {
-        valid_elements = valid_elements.replace(/__text_classes__/g, 'class<' + text_classes.join(',class<'));
+        validElementsText = 'class<' + text_classes.join('?');
     }
     if (image_classes.length > 0) {
-        valid_elements = valid_elements.replace(/__image_classes__/g, 'class<' + image_classes.join(',class<'));
+        validElementsImage = 'class<' + image_classes.join('?') + '|';
     }
+    valid_elements = valid_elements.replace(/__text_classes__/g, validElementsText);
+    valid_elements = valid_elements.replace(/__image_classes__/g, validElementsImage);
     
     console.log(valid_elements);
     
