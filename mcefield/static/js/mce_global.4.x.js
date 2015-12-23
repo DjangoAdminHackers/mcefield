@@ -25,8 +25,14 @@
         + "figure,figcaption,"
         + "img[src|__image_classes__|alt|title|height|width]";
     
-    valid_elements = valid_elements.replace(/__text_classes__/g, 'class<' + text_classes.join(',class<'));
-    valid_elements = valid_elements.replace(/__image_classes__/g, 'class<' + image_classes.join(',class<'));
+    if (text_classes.length > 0) {
+        valid_elements = valid_elements.replace(/__text_classes__/g, 'class<' + text_classes.join(',class<'));
+    }
+    if (image_classes.length > 0) {
+        valid_elements = valid_elements.replace(/__image_classes__/g, 'class<' + image_classes.join(',class<'));
+    }
+    
+    console.log(valid_elements);
     
     function CustomFileBrowser(field_name, url, type, win) {
     
@@ -136,7 +142,7 @@
         convert_urls: false,
         plugins: "media, autolink, image, link, anchor, paste, searchreplace, visualchars, charmap, code, hr, media, preview, template, visualblocks, autoresize" + extra_plugins,
         external_plugins: {
-            "caption": "/static/js/mce_plugins/ixxy_image/plugin.js"
+            "ixxy_image": "/static/js/mce_plugins/ixxy_image/plugin.js"
         },
         image_caption: true,
         media_alt_source: false,
@@ -157,7 +163,7 @@
         ].concat(image_styles),
         target_list: false,
         toolbar: [
-            "formatselect styleselect | bold italic removeformat | bullist numlist blockquote hr | link unlink anchor | image media | imageUpload fileUpload fileBrowser | code"
+            "formatselect styleselect | bold italic removeformat | bullist numlist blockquote hr | link unlink anchor | image media | imageUpload fileUpload fileBrowser | code ixxy_image"
             //"undo redo | charmap hr | searchreplace | visualchars visualblocks"
         ],
         menubar: false,
