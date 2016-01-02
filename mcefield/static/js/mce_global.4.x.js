@@ -12,7 +12,7 @@
     var extra_plugins = window.site_mce_config.extra_plugins || ''; // e.g. ", table"
     var content_width = window.site_mce_config.content_width || 800; // TODO this should relate to site's content width to give accurate idea of line lengths
     
-    var valid_elements = "-h2/h1[__text_classes__],-h3/h4/h5[__text_classes__],"
+    var valid_elements = "-h2/h1[__text_classes__],-h3/h4[__text_classes__],-h3/h5[__text_classes__],"
         + "p[__text_classes__],"
         + "ul[__text_classes__],-li,-ol,"
         + "blockquote,"
@@ -147,6 +147,7 @@
         content_css: "/static/css/mce_styles.css",
         cache_suffix: "?v=" + new Date().getTime(),  // TODO This is quick and dirty cache-busting
         convert_urls: false,
+        element_format: 'html',
         plugins: "media, autolink, link, anchor, paste, searchreplace, visualchars, charmap, code, hr, media, preview, template, visualblocks, autoresize" + extra_plugins,
         external_plugins: {
             "ixxy_image": "/static/js/mce_plugins/ixxy_image/plugin.js"
