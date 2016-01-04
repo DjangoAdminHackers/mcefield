@@ -196,7 +196,7 @@ tinymce.PluginManager.add('ixxy_image', function(editor) {
                     if (!dom.is(imgElm.parentNode, 'figure.imageCaption')) {
                         oldImg = imgElm;
                         imgElm = imgElm.cloneNode(true);
-                        figureElm = dom.create('figure', {'class': 'imageCaption'});
+                        figureElm = dom.create('figure', {'class': 'imageCaption ' + data["class"]});
                         figureElm.appendChild(imgElm);
                         figureElm.appendChild(dom.create('figcaption', {contentEditable: true}, 'Caption'));
                         figureElm.contentEditable = false;
