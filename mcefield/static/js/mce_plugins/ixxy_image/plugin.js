@@ -1,6 +1,12 @@
 tinymce.PluginManager.add('ixxy_image', function(editor) {
 	
 	function isEditableImage(img) {
+        
+        // Selecting the figure created to wrap a caption should always work
+        if (editor.dom.is(img, 'figure')) {
+            return true;
+        }
+        
 		var selectorMatched = editor.dom.is(img, 'img:not([data-mce-object],[data-mce-placeholder])');
 
 		return selectorMatched && (isLocalImage(img) || isCorsImage(img) || editor.settings.imagetools_proxy);
@@ -196,7 +202,7 @@ tinymce.PluginManager.add('ixxy_image', function(editor) {
                     if (!dom.is(imgElm.parentNode, 'figure.imageCaption')) {
                         oldImg = imgElm;
                         imgElm = imgElm.cloneNode(true);
-                        figureElm = dom.create('figure', {'class': 'imageCaption ' + data["class"]});
+                        figureElm = dom.create('figure');
                         figureElm.appendChild(imgElm);
                         figureElm.appendChild(dom.create('figcaption', {contentEditable: true}, 'Caption'));
                         figureElm.contentEditable = false;
@@ -210,7 +216,9 @@ tinymce.PluginManager.add('ixxy_image', function(editor) {
     
                         editor.selection.select(figureElm);
                     }
-    
+                    // imgElm.parentNode should always be a caption as the above conditional creates it if it isn't
+                    $(imgElm.parentNode).addClass("imageCaption " + data["class"]);
+
                     return;
                 }
     
