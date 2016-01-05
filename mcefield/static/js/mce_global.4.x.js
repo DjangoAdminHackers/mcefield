@@ -75,28 +75,6 @@
         return $('<div>').append(content.clone()).html();
     }
 
-    function doShowWhitespace() {
-        var setStyle = tinyMCE.activeEditor.dom.setStyle;
-        var domSelect = tinyMCE.activeEditor.dom.select;
-        if (!tinyMCE.activeEditor.show_paragraphs) {
-            setStyle(domSelect('p, h1, h2, h3, h4, ul, li, ol'), 'background-color', '#FFFFBB');
-            setStyle(domSelect('p, h1, h2, h3, h4, ul, ol'), 'margin-bottom', '5px');
-            setStyle(domSelect('a'), 'background-color', '#AAF');
-            setStyle(domSelect('a'), 'border', '1px solid blue');
-            setStyle(domSelect('a'), 'margin', '2px');
-            setStyle(domSelect('a'), 'padding', '2px');
-            tinyMCE.activeEditor.show_paragraphs = true;
-        } else {
-            setStyle(domSelect('p, h1, h2, h3, h4, ul, li, ol'), 'background-color', 'transparent');
-            setStyle(domSelect('p, h1, h2, h3, h4, ul, ol'), 'margin-bottom', '0');
-            setStyle(domSelect('a'), 'background-color', '#FFF');
-            setStyle(domSelect('a'), 'border', 'none');
-            setStyle(domSelect('a'), 'margin', '0');
-            setStyle(domSelect('a'), 'padding', '0');
-            tinyMCE.activeEditor.show_paragraphs = false;
-        }
-    }
-
     function doShowFileBrowser() {
         tinyMCE.activeEditor.windowManager.open({
             file: mcefieldBrowseUrl + '?pop=1&ixxy_mce=1&type=file',
@@ -125,18 +103,6 @@
         }
     }
 
-    //tinyMCE_config = {
-    //    theme_advanced_resizing: true,
-    //    theme_advanced_resize_horizontal: false,
-    //    theme_advanced_path: false,
-    //    cleanup_on_startup: true,
-    //    convert_urls: false,
-    //    fix_list_elements: true,
-    //    fix_nesting: true,
-    //    fix_table_elements: true,
-    //    gecko_spellcheck: true,
-    //    auto_cleanup_word: true
-    //};
     
     var tinyMCE_config = {
         block_formats: "Paragraph=p;Heading=h2;Sub-heading=h3",
@@ -177,12 +143,6 @@
         
         setup: function(ed) {
 
-            ed.addButton('showWhitespace', {
-                title: 'Show Whitespace',
-                image: '/static/images/admin/show_whitespace.gif', // TODO make a proper icon
-                onclick: doShowWhitespace
-            });
-            
             if (mcefieldBrowseUrl) {
                 ed.addButton('fileBrowser', {
                     title: 'Open Filebrowser',
