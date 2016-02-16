@@ -130,10 +130,11 @@
         },
         save_callback: cleanup_html,
         link_list: "/admin/cms/linklist.json",
+        link_title: false,
+        target_list: false,
         image_class_list: [
             {title: 'None', value: ''}
         ].concat(image_styles),
-        target_list: false,
         toolbar: [
             "formatselect styleselect | bold italic removeformat | bullist numlist blockquote hr | link unlink anchor | fileBrowser imageUpload fileUpload media | code"
             //"undo redo | charmap hr | searchreplace | visualchars visualblocks"
