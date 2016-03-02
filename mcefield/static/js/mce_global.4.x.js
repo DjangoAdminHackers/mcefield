@@ -195,25 +195,10 @@
         return Params;
     }
 
-    // document.domain = document.domain.replace('www.', '').replace('static.', '');
-
-    window.process_inline_mce = function(){
-        $(".mce_fields")
-            .not('.empty-form .mce_fields')
-            .filter(':visible')
-            .not('[id*=__prefix__]')
-            .each(function(i) {
-                tinyMCE.execCommand("mceAddControl", true, this.id);
-                $(this).removeClass('mce_fields');
-            });
-
-    }
-
     function mce_init() {
         
         var mceFields = $(".mce_fields")
             .not('.empty-form .mce_fields')
-            .filter(':visible')
             .not('.mce_inited')
             .not('[id*=__prefix__]');
             
@@ -232,7 +217,7 @@
 
         // 'Add another' on inlines triggers a check to reinit MCE fields
         $('.add-row').on('mouseup', 'a', function() {
-            setTimeout('window.process_inline_mce()', 200)
+            setTimeout(function(){mce_init()}, 200)
         });
 
     }
