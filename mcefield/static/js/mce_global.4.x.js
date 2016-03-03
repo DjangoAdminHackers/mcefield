@@ -11,6 +11,7 @@
     var image_classes = window.site_mce_config.image_classes || []; // e.g. ['myclass1', 'myclass2']
     var extra_plugins = window.site_mce_config.extra_plugins || ''; // e.g. ", table"
     var content_width = window.site_mce_config.content_width || 800; // TODO this should relate to site's content width to give accurate idea of line lengths
+    var extra_img_attributes = window.site_mce_config.extra_img_attributes || '';
     
     var valid_elements = "-h2/h1[__text_classes__],-h3/h4[__text_classes__],-h3/h5[__text_classes__],"
         + "p[__text_classes__],"
@@ -23,7 +24,7 @@
         + "hr,"
         + "iframe[src|allowfullscreen],"
         + "figure[!class<imageCaption],figcaption," // TODO imageCaption is specific to ixxy_image plugin
-        + "img[__image_classes__src|alt|title]";
+        + "img[__image_attributes__src|alt|title]";
     
     var validElementsText = '';
     var requiredValidElementsText = '';
@@ -37,9 +38,15 @@
     if (image_classes.length > 0) {
         validElementsImage = 'class<' + image_classes.join('?') + '|';
     }
+    if (extra_img_attributes.length > 0) {
+        validElementsImage += extra_img_attributes.join('|') + '|';
+    }
+    
     valid_elements = valid_elements.replace(/__text_classes__/g, validElementsText);
     valid_elements = valid_elements.replace(/__required_text_classes__/g, requiredValidElementsText);
-    valid_elements = valid_elements.replace(/__image_classes__/g, validElementsImage);
+    valid_elements = valid_elements.replace(/__image_attributes__/g, validElementsImage);
+    
+    console.log(valid_elements);
     
     function CustomFileBrowser(field_name, url, type, win) {
     
