@@ -173,14 +173,9 @@
                     onclick: doShowUpload('documents', 'file')
                 });
             }
-
-            ed.on('PreInit', function(ed) {
-                if (typeof(fontFaceCssTag) !== 'undefined') {
-                    $(ed.contentDocument).find('head').append(fontFaceCssTag);
-                }
-            });
+            
         }
-    }
+    };
 
     $.extend(tinyMCE_config, window.site_mce_config);
 
