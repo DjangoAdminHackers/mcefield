@@ -124,6 +124,7 @@
         external_plugins: {
             "ixxy_image": "/static/js/mce_plugins/ixxy_image/plugin.js"
         },
+        browser_spellcheck: true,
         image_caption: true,
         media_alt_source: false,
         media_poster: false,
