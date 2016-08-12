@@ -97,7 +97,7 @@
     function doShowUpload(dir, format) {
         return function() {
             tinyMCE.activeEditor.windowManager.open({
-                file: mcefieldUploadUrl + '?pop=1&dir=' + dir + '&type=' + format,
+                file: mcefieldUploadUrl + '?pop=1&ixxy_mce=1&dir=' + dir + '&type=' + format,
                 width: 980,
                 height: 550,
                 resizable: "yes",
