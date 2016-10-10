@@ -48,7 +48,7 @@
     
 
     function CustomFileBrowser(field_name, url, type, win) {
-    
+
         var cmsURL = mcefieldBrowseUrl + '?pop=2' + '&type=' + type;
 
         tinyMCE.activeEditor.windowManager.open({
@@ -81,8 +81,8 @@
         return $('<div>').append(content.clone()).html();
     }
 
-    function doShowFileBrowser() {
-        tinyMCE.activeEditor.windowManager.open({
+    function doShowFileBrowser(ed) {
+        ed.windowManager.open({
             file: mcefieldBrowseUrl + '?pop=1&ixxy_mce=1&type=file',
             width: 980,
             height: 550,
@@ -94,19 +94,17 @@
         }, {});
     }
 
-    function doShowUpload(dir, format) {
-        return function() {
-            tinyMCE.activeEditor.windowManager.open({
-                file: mcefieldUploadUrl + '?pop=1&ixxy_mce=1&dir=' + dir + '&type=' + format,
-                width: 980,
-                height: 550,
-                resizable: "yes",
-                scrollbars: "yes",
-                inline: "yes",
-                close_previous: "yes",
-                popup_css: false
-            }, {});
-        }
+    function doShowUpload(ed, dir, format) {
+        ed.windowManager.open({
+            file: mcefieldUploadUrl + '?pop=1&ixxy_mce=1&dir=' + dir + '&type=' + format,
+            width: 980,
+            height: 550,
+            resizable: "yes",
+            scrollbars: "yes",
+            inline: "yes",
+            close_previous: "yes",
+            popup_css: false
+        }, {});
     }
 
     
@@ -155,7 +153,9 @@
                 ed.addButton('fileBrowser', {
                     title: 'Open Filebrowser',
                     icon: 'browse',
-                    onclick: doShowFileBrowser
+                    onclick: function(){
+                        doShowFileBrowser(ed);
+                    }
                 });
             }
 
@@ -163,7 +163,9 @@
                 ed.addButton('imageUpload', {
                     title: 'Upload an image',
                     image: '/static/img/document_image_add_32.png',
-                    onclick: doShowUpload('images', 'image')
+                    onclick: function(){
+                        doShowUpload(ed, 'images', 'image');
+                    }
                 });
             }
 
@@ -171,7 +173,9 @@
                 ed.addButton('fileUpload', {
                     title: 'Upload a document',
                     image: '/static/img/notes_add_32.png',
-                    onclick: doShowUpload('documents', 'file')
+                    onclick: function(){
+                        doShowUpload(ed, 'documents', 'file')
+                    }
                 });
             }
             
