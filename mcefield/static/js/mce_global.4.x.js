@@ -118,11 +118,12 @@
         cache_suffix: "?v=" + new Date().getTime(),  // TODO This is quick and dirty cache-busting
         convert_urls: false,
         element_format: 'html',
-        plugins: "media, autolink, link, anchor, paste, searchreplace, visualchars, charmap, code, hr, media, preview, template, visualblocks, autoresize" + extra_plugins,
+        plugins: "media, autolink, link, anchor, paste, searchreplace, visualchars, charmap, code, hr, media, preview, template, visualblocks" + extra_plugins,
         external_plugins: {
             "ixxy_image": "/static/js/mce_plugins/ixxy_image/plugin.js"
         },
         browser_spellcheck: true,
+        height: 500,
         image_caption: true,
         media_alt_source: false,
         media_poster: false,
@@ -183,7 +184,6 @@
     };
 
     $.extend(tinyMCE_config, window.site_mce_config);
-
     // Parse the per field conf parameter
     // content = MCEField(blank=True, null=True, conf={'width':999})
     function parseQuery(query) {
