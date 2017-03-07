@@ -23,7 +23,7 @@
         + "a[!id|!href|title|target],"
         + "hr,"
         + "iframe[src|allowfullscreen],"
-        + "figure[!class<imageCaption],figcaption," // TODO imageCaption is specific to ixxy_image plugin
+        + "figure[*],figcaption," // TODO imageCaption is specific to ixxy_image plugin
         + "img[__image_attributes__src|alt|title]";
     
     var validElementsText = '';
@@ -46,7 +46,7 @@
     valid_elements = valid_elements.replace(/__required_text_classes__/g, requiredValidElementsText);
     valid_elements = valid_elements.replace(/__image_attributes__/g, validElementsImage);
     
-
+    console.log(valid_elements);
     function CustomFileBrowser(field_name, url, type, win) {
 
         var cmsURL = mcefieldBrowseUrl + '?pop=2' + '&type=' + type;
