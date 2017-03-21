@@ -217,7 +217,7 @@ tinymce.PluginManager.add('ixxy_image', function(editor) {
                         editor.selection.select(figureElm);
                     }
                     // imgElm.parentNode should always be a caption as the above conditional creates it if it isn't
-                    $(imgElm.parentNode).addClass("imageCaption " + data["class"]);
+                    $(imgElm.parentNode).removeClass().addClass("imageCaption " + data["class"]);
 
                     return;
                 }
