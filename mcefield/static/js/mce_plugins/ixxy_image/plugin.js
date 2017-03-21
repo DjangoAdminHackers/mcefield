@@ -429,7 +429,7 @@ tinymce.PluginManager.add('ixxy_image', function(editor) {
 		
 		function hasImageClass(node) {
 			var className = node.attr('class');
-			return className && /\bimage\b/.test(className);
+			return className && /\bimageCaption\b/.test(className);
 		}
 	
 		function toggleContentEditableState(state) {
