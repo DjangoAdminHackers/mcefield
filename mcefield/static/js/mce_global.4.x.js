@@ -13,7 +13,7 @@
     var content_width = window.site_mce_config.content_width || 800; // TODO this should relate to site's content width to give accurate idea of line lengths
     var extra_img_attributes = window.site_mce_config.extra_img_attributes || '';
     
-    var valid_elements = "-h2/h1[__text_classes__],-h3/h4[__text_classes__],-h3/h5[__text_classes__],"
+    var valid_elements = "-h2/h1[id|__text_classes__],-h3/h4[id|__text_classes__],-h3/h5[id|__text_classes__],"
         + "p[__text_classes__],"
         + "ul[__text_classes__],-li,-ol,"
         + "blockquote,"
@@ -114,11 +114,12 @@
             {title: 'None', inline: 'span', attributes: {class: ''}}
         ].concat(text_styles), 
         style_formats_merge: false,
+        style_formats_autohide: true,
         content_css: "/static/css/mce_styles.css",
         cache_suffix: "?v=" + new Date().getTime(),  // TODO This is quick and dirty cache-busting
         convert_urls: false,
         element_format: 'html',
-        plugins: "media, autolink, link, anchor, paste, searchreplace, visualchars, charmap, code, hr, media, preview, template, visualblocks" + extra_plugins,
+        plugins: "media, autolink, link, anchor, paste, searchreplace, toc, visualchars, charmap, code, hr, preview, template, visualblocks" + extra_plugins,
         external_plugins: {
             "ixxy_image": "/static/js/mce_plugins/ixxy_image/plugin.js"
         },
@@ -142,7 +143,7 @@
             {title: 'None', value: ''}
         ].concat(image_styles),
         toolbar: [
-            "formatselect styleselect | bold italic removeformat | bullist numlist blockquote hr | link unlink anchor | fileBrowser imageUpload fileUpload media | code"
+            "formatselect styleselect | bold italic removeformat | bullist numlist blockquote hr | toc charmap | link unlink anchor | fileBrowser imageUpload fileUpload media | code"
             //"undo redo | charmap hr | searchreplace | visualchars visualblocks"
         ],
         menubar: false,
