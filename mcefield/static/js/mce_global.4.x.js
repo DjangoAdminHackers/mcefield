@@ -119,7 +119,7 @@
         cache_suffix: "?v=" + new Date().getTime(),  // TODO This is quick and dirty cache-busting
         convert_urls: false,
         element_format: 'html',
-        plugins: "media, autolink, link, anchor, paste, searchreplace, toc, visualchars, charmap, code, hr, preview, template, visualblocks" + extra_plugins,
+        plugins: "media, autolink, link, lists, anchor, paste, searchreplace, toc, visualchars, charmap, code, hr, preview, template, visualblocks" + extra_plugins,
         external_plugins: {
             "ixxy_image": "/static/js/mce_plugins/ixxy_image/plugin.js"
         },
