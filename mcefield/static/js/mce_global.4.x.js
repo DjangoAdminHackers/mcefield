@@ -45,8 +45,7 @@
     valid_elements = valid_elements.replace(/__text_classes__/g, validElementsText);
     valid_elements = valid_elements.replace(/__required_text_classes__/g, requiredValidElementsText);
     valid_elements = valid_elements.replace(/__image_attributes__/g, validElementsImage);
-    
-    console.log(valid_elements);
+
     function CustomFileBrowser(field_name, url, type, win) {
 
         var cmsURL = mcefieldBrowseUrl + '?pop=2' + '&type=' + type;
