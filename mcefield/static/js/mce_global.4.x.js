@@ -10,6 +10,7 @@
     var image_styles = window.site_mce_config.image_styles || []; // e.g. [{title: 'Left', value: 'left'}, {title: 'Right', value: 'right'}]
     var image_classes = window.site_mce_config.image_classes || []; // e.g. ['myclass1', 'myclass2']
     var extra_plugins = window.site_mce_config.extra_plugins || ''; // e.g. ", table"
+    var extra_toolbar = window.site_mce_config.extra_toolbar || ''; // e.g. "table |"
     var content_width = window.site_mce_config.content_width || 800; // TODO this should relate to site's content width to give accurate idea of line lengths
     var extra_img_attributes = window.site_mce_config.extra_img_attributes || '';
     
@@ -143,7 +144,14 @@
             {title: 'None', value: ''}
         ].concat(image_styles),
         toolbar: [
-            "formatselect styleselect | bold italic removeformat | bullist numlist blockquote hr | toc charmap | link unlink anchor | fileBrowser imageUpload fileUpload media | code"
+            "formatselect styleselect | " +
+            "bold italic removeformat | " +
+            "bullist numlist blockquote hr | " +
+            "toc charmap | " +
+            "link unlink anchor | " +
+            extra_toolbar +  // Usually makes more sense in the middle but ideally would be configurable
+            "fileBrowser imageUpload fileUpload media | " +
+            "code"
             //"undo redo | charmap hr | searchreplace | visualchars visualblocks"
         ],
         menubar: false,
