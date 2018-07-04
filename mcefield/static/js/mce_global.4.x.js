@@ -9,6 +9,8 @@
     var text_classes = window.site_mce_config.text_classes || []; // e.g. ['myclass1','myclass2']
     var image_styles = window.site_mce_config.image_styles || []; // e.g. [{title: 'Left', value: 'left'}, {title: 'Right', value: 'right'}]
     var image_classes = window.site_mce_config.image_classes || []; // e.g. ['myclass1', 'myclass2']
+    var link_styles = window.site_mce_config.link_styles || []; // e.g. [{title: 'Left', value: 'left'}, {title: 'Right', value: 'right'}]
+    var link_classes = window.site_mce_config.link_classes || []; // e.g. ['myclass1', 'myclass2']
     var extra_plugins = window.site_mce_config.extra_plugins || ''; // e.g. ", table"
     var extra_toolbar = window.site_mce_config.extra_toolbar || ''; // e.g. "table |"
     var content_width = window.site_mce_config.content_width || 800; // TODO this should relate to site's content width to give accurate idea of line lengths
@@ -21,7 +23,7 @@
         + "br,"
         + "-em/i,-strong/b,"
         + "-span[__required_text_classes__],-div[__required_text_classes__],"
-        + "a[!id|!href|title|target],"
+        + "a[__link_classes__!id|!href|title|target],"
         + "hr,"
         + "iframe[src|allowfullscreen],"
         + "figure[*],figcaption," // TODO imageCaption is specific to ixxy_image plugin
@@ -30,6 +32,7 @@
     var validElementsText = '';
     var requiredValidElementsText = '';
     var validElementsImage = '';
+    var validElementsLink = '';
     
     if (text_classes.length > 0) {
         validElementsText = 'class<' + text_classes.join('?');
@@ -43,9 +46,14 @@
         validElementsImage += extra_img_attributes.join('|') + '|';
     }
     
+    if (link_classes.length>0) {
+        validElementsLink += 'class<' + link_classes.join('?') + '|';
+    }
+    
     valid_elements = valid_elements.replace(/__text_classes__/g, validElementsText);
     valid_elements = valid_elements.replace(/__required_text_classes__/g, requiredValidElementsText);
     valid_elements = valid_elements.replace(/__image_attributes__/g, validElementsImage);
+    valid_elements = valid_elements.replace(/__link_classes__/g, validElementsLink);
 
 
     function CustomFileBrowser(field_name, url, type, win) {
@@ -143,6 +151,9 @@
         image_class_list: [
             {title: 'None', value: ''}
         ].concat(image_styles),
+        link_class_list: [
+            {title: 'None', value: ''}
+        ].concat(link_styles),
         toolbar: [
             "formatselect styleselect | " +
             "bold italic removeformat | " +
