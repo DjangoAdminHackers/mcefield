@@ -61,7 +61,7 @@ class MCEWidget(Textarea):
             
         js_list = [
             mce_url,
-            'js/mce_site.js',
+            'js/mce_site.js?v=2',
             mce_config_url,
         ]
         
