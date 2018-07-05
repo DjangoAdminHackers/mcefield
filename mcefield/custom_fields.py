@@ -54,7 +54,7 @@ class MCEWidget(Textarea):
         
         if getattr(settings, 'MCEFIELD_MCEVERSION', False) == '4.x':
             mce_url = '//cdn.tinymce.com/4.6/tinymce.min.js'
-            mce_config_url = 'js/mce_global.4.x.js'
+            mce_config_url = 'js/mce_global.4.x.js?v=2'
         else:
             mce_url = 'js/tiny_mce/tiny_mce.js'
             mce_config_url = 'js/mce_global.js'
