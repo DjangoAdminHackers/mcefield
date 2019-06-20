@@ -15,7 +15,7 @@
     var extra_toolbar = window.site_mce_config.extra_toolbar || ''; // e.g. "table |"
     var content_width = window.site_mce_config.content_width || 800; // TODO this should relate to site's content width to give accurate idea of line lengths
     var extra_img_attributes = window.site_mce_config.extra_img_attributes || '';
-    
+
     var valid_elements = "-h2/h1[id|__text_classes__],-h3/h4[id|__text_classes__],-h3/h5[id|__text_classes__],"
         + "p[__text_classes__],"
         + "ul[__text_classes__],-li,-ol,"
@@ -23,7 +23,7 @@
         + "br,"
         + "-em/i,-strong/b,"
         + "-span[__required_text_classes__],-div[__required_text_classes__],"
-        + "a[__link_classes__!id|!href|title|target],"
+        + "a[__link_classes__!id|!href|title],"
         + "hr,"
         + "iframe[src|allowfullscreen],"
         + "figure[*],figcaption," // TODO imageCaption is specific to ixxy_image plugin

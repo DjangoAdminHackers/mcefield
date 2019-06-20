@@ -138,7 +138,7 @@
                 + "br,"
                 + "-em/i,-strong/b,"
                 + "-span[!___],-div[!___],"
-                + "a[!name|!href|title|target],"
+                + "a[!name|!href|title],"
                 + "hr,"
                 + "img[src|class<left?right?center?floatleft?floatright|alt|title|height|width]"
                 + table_elements
