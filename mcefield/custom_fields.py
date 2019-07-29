@@ -41,9 +41,9 @@ class MCEWidget(Textarea):
         help_text = random.choice(help_list)
 
         return mark_safe(
-            u'<div data-mce-conf="{}" class="mcefield-wrapper">{}'
-            u'    <div class="mcefield-tip">{}</div>'
-            u"</div>".format(
+            '<div data-mce-conf="{}" class="mcefield-wrapper">{}'
+            '    <div class="mcefield-tip">{}</div>'
+            "</div>".format(
                 escape(json.dumps(self.conf)),
                 super(MCEWidget, self).render(name, value, attrs),
                 help_text,
