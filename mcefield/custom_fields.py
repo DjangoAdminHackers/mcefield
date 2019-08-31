@@ -36,7 +36,7 @@ class MCEWidget(Textarea):
             pass
         super(MCEWidget, self).__init__(attrs=default_attrs, *args, **kwargs)
 
-    def render(self, name, value, attrs=None):
+    def render(self, name, value, attrs=None, renderer=None):
         
         help_text = random.choice(help_list)
 
