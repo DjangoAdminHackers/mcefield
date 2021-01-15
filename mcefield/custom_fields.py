@@ -53,7 +53,10 @@ class MCEWidget(Textarea):
     def _media(self):
         
         if getattr(settings, 'MCEFIELD_MCEVERSION', False) == '4.x':
-            mce_url = 'js/tinymce4.6/tinymce.min.js'
+            if getattr(settings, 'MCEFIELD_API_KEY', None):
+                mce_url = 'https://cdn.tiny.cloud/1/{}/tinymce/4.9.11/tinymce.min.js'.format(settings.MCEFIELD_API_KEY)
+            else:
+                mce_url = 'js/tinymce4.6/tinymce.min.js'
             mce_config_url = 'js/mce_global.4.x_v1.js'
         else:
             mce_url = 'js/tiny_mce/tiny_mce.js'
