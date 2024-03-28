@@ -1,3 +1,4 @@
+var ixxy_mce_init = null;
 ($ || django.jQuery)(function($) {
     
     // per-site tinyMCE_config
@@ -237,6 +238,7 @@
                 field_tinyMCE_config,
                 $(selector).parent().data()['mceConf']
             );
+            $(selector).data('mceConf', field_tinyMCE_config)
             tinymce.init(field_tinyMCE_config);
             $(this).removeClass('mce_fields').addClass('mce_inited');
         });
@@ -247,8 +249,12 @@
         });
 
     }
-    
+
+    ixxy_mce_init = mce_init;
+
     $(document).ready(function() {
         mce_init();
     });
+
+
 });
